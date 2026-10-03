@@ -298,3 +298,117 @@ h3 { font-weight: 600; font-size: 19px; }
 
 /* Placeholder buttons shown before sign-up opens */
 .btn.is-disabled { opacity: 0.55; cursor: default; pointer-events: none; }
+
+/* =========================================================
+   JOIN PAGE — multi-step intake form
+   ========================================================= */
+[hidden] { display: none !important; }
+
+.join-page { background: #F3F6FB; }
+.form-shell { max-width: 760px; margin: 0 auto; padding: 64px 20px 96px; }
+.form-intro { text-align: center; margin-bottom: 36px; }
+.form-intro h1 { font-size: clamp(30px, 4.4vw, 44px); margin-bottom: 14px; }
+.form-intro .lead { font-size: 17px; max-width: 600px; margin: 0 auto; }
+
+.form-card {
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 40px; box-shadow: 0 1px 2px rgba(51, 56, 64, 0.04);
+}
+.progress { height: 4px; background: var(--pale-blue); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; width: 25%; background: var(--navy); transition: width 0.3s; }
+.step-count {
+  font-family: var(--font-head); font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin: 12px 0 28px;
+}
+
+.form-step { border: 0; }
+.form-step legend {
+  font-family: var(--font-head); font-weight: 700; font-size: 24px; color: var(--charcoal);
+  margin-bottom: 24px; padding: 0;
+}
+
+.field {
+  display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px;
+  font-size: 15px; font-weight: 600; color: var(--charcoal); flex: 1;
+}
+.field.narrow { max-width: 340px; }
+.field-row { display: flex; gap: 16px; }
+.optional { font-weight: 400; color: var(--muted); }
+
+.field input, .field select, .field textarea {
+  font: inherit; font-weight: 400; font-size: 16px; color: var(--charcoal);
+  border: 1.5px solid #cfd5df; border-radius: 6px; padding: 12px 14px; background: var(--white);
+  width: 100%;
+}
+.field textarea { resize: vertical; min-height: 96px; }
+.field input:focus, .field select:focus, .field textarea:focus,
+.choice input:focus-visible + .choice-body, .pill input:focus-visible + span, .scale input:focus-visible + span {
+  outline: 2px solid var(--light-blue); outline-offset: 1px; border-color: var(--navy);
+}
+
+.q { font-size: 15px; font-weight: 600; margin: 4px 0 10px; }
+
+/* Big choice cards (step 1) */
+.choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.choice { cursor: pointer; }
+.choice input { position: absolute; opacity: 0; pointer-events: none; }
+.choice-body {
+  display: flex; flex-direction: column; gap: 8px; height: 100%;
+  border: 1.5px solid #cfd5df; border-radius: var(--radius); padding: 24px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.choice-body strong { font-family: var(--font-head); font-size: 17px; color: var(--navy); }
+.choice-body span { color: var(--muted); font-size: 15px; }
+.choice:hover .choice-body { border-color: var(--navy); }
+.choice input:checked + .choice-body { border-color: var(--navy); background: var(--pale-blue); }
+
+/* Pill-style options */
+.pill-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+.pill { cursor: pointer; }
+.pill input { position: absolute; opacity: 0; pointer-events: none; }
+.pill span {
+  display: inline-block; border: 1.5px solid #cfd5df; border-radius: 999px; padding: 9px 16px;
+  font-size: 15px; transition: all 0.2s;
+}
+.pill:hover span { border-color: var(--navy); }
+.pill input:checked + span { background: var(--navy); border-color: var(--navy); color: var(--white); }
+
+/* Readiness scale */
+.scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1.5px solid #cfd5df; border-radius: 6px; overflow: hidden; }
+.scale label { cursor: pointer; }
+.scale input { position: absolute; opacity: 0; pointer-events: none; }
+.scale span {
+  display: block; text-align: center; padding: 12px 4px; font-size: 14px; font-weight: 500;
+  border-left: 1px solid #cfd5df; transition: background 0.2s;
+}
+.scale label:first-child span { border-left: 0; }
+.scale label:hover span { background: #F3F6FB; }
+.scale input:checked + span { background: var(--navy); color: var(--white); }
+.scale-ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin: 6px 0 24px; }
+
+/* Consent */
+.consent { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 4px; }
+.check { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; margin-bottom: 14px; cursor: pointer; }
+.check input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--navy); flex-shrink: 0; }
+
+.form-error { background: #fbeeee; color: #8a2a2a; border-radius: 6px; padding: 12px 14px; font-size: 14.5px; margin-top: 12px; }
+.form-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 28px; }
+.form-nav #nextBtn, .form-nav #submitBtn { margin-left: auto; }
+.form-nav button { cursor: pointer; font-family: var(--font-head); background-color: var(--white); }
+.form-nav .btn-primary { background-color: var(--navy); }
+.form-nav .btn-primary:hover { background-color: var(--navy-dark); }
+.form-nav .btn-outline:hover { background-color: var(--pale-blue); }
+.form-nav button:disabled { opacity: 0.6; cursor: wait; }
+
+.trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.thanks { text-align: center; padding: 24px 0; }
+.thanks h2 { margin-bottom: 14px; }
+.thanks .lead { max-width: 520px; margin: 0 auto 28px; font-size: 17px; }
+
+@media (max-width: 620px) {
+  .form-card { padding: 26px 20px; }
+  .choice-grid, .field-row { grid-template-columns: 1fr; flex-direction: column; gap: 0; }
+  .choice-grid { gap: 12px; }
+  .scale span { font-size: 12px; padding: 12px 2px; }
+}

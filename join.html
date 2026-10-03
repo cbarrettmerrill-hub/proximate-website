@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Join the Network | Proximate Communities</title>
+  <meta name="description" content="Join the Proximate Network as an individual, community, or real estate and community professional.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="join-page">
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="index.html" class="wordmark" aria-label="Proximate Communities home">
+        <span class="main">PROXIMATE</span>
+        <span class="sub">COMMUNITIES</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">← Back to home</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="form-shell">
+    <div class="form-intro">
+      <span class="label">Join the Proximate Network</span>
+      <h1>Start your journey toward proximity.</h1>
+      <p class="lead">Joining the network allows Proximate to contact you when relevant communities, professionals, opportunities, or resources become available in your area.</p>
+    </div>
+
+    <div class="form-card">
+      <!-- Progress bar -->
+      <div class="progress" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+      <p class="step-count" id="stepCount">Step 1 of 4</p>
+
+      <form id="joinForm" novalidate>
+
+        <!-- Hidden spam trap: real people never see or fill this -->
+        <div class="trap" aria-hidden="true">
+          <label>Leave this empty <input type="text" name="company_url" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <!-- ===== STEP 1: Which best describes you? ===== -->
+        <fieldset class="form-step" data-step="choose">
+          <legend>Which best describes you?</legend>
+          <div class="choice-grid">
+            <label class="choice">
+              <input type="radio" name="user_type" value="community" required>
+              <span class="choice-body">
+                <strong>Individual or Community</strong>
+                <span>I/we are interested in living in greater proximity.</span>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="user_type" value="professional" required>
+              <span class="choice-body">
+                <strong>Real Estate / Community Professional</strong>
+                <span>I help people navigate housing, development, real estate, or community formation.</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- ===== STEP 2: About you (both paths) ===== -->
+        <fieldset class="form-step" data-step="about" hidden>
+          <legend>Tell us about you</legend>
+          <div class="field-row">
+            <label class="field">First name <input type="text" name="first_name" maxlength="100" autocomplete="given-name" required></label>
+            <label class="field">Last name <input type="text" name="last_name" maxlength="100" autocomplete="family-name" required></label>
+          </div>
+          <label class="field">Email <input type="email" name="email" maxlength="254" autocomplete="email" required></label>
+          <div class="field-row">
+            <label class="field">City <input type="text" name="city" maxlength="100" autocomplete="address-level2" required></label>
+            <label class="field">State
+              <select name="state" required>
+                <option value="">Select…</option>
+                <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option><option>Outside US</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- ===== STEP 3a: Your community (individuals & communities) ===== -->
+        <fieldset class="form-step" data-step="community" data-path="community" hidden>
+          <legend>Tell us about your community</legend>
+
+          <p class="q">Are you an individual or an existing community?</p>
+          <div class="pill-group">
+            <label class="pill"><input type="radio" name="group_type" value="individual" required><span>Individual / household</span></label>
+            <label class="pill"><input type="radio" name="group_type" value="community" required><span>Existing community or group</span></label>
+          </div>
+
+          <label class="field narrow">About how many households are involved?
+            <input type="number" name="households" min="1" max="500" inputmode="numeric" required>
+          </label>
+
+          <p class="q">Which housing pathway interests you?</p>
+          <div class="pill-group">
+            <label class="pill"><input type="radio" name="housing_pathway" value="existing_neighborhood" required><span>Existing neighborhood</span></label>
+            <label class="pill"><input type="radio" name="housing_pathway" value="new_development" required><span>New development</span></label>
+            <label class="pill"><input type="radio" name="housing_pathway" value="shared_property" required><span>Shared property</span></label>
+            <label class="pill"><input type="radio" name="housing_pathway" value="not_sure" required><span>Not sure yet</span></label>
+          </div>
+
+          <p class="q">How ready are you to move toward proximity?</p>
+          <div class="scale">
+            <label><input type="radio" name="readiness" value="0-20" required><span>0–20%</span></label>
+            <label><input type="radio" name="readiness" value="20-40" required><span>20–40%</span></label>
+            <label><input type="radio" name="readiness" value="40-60" required><span>40–60%</span></label>
+            <label><input type="radio" name="readiness" value="60-80" required><span>60–80%</span></label>
+            <label><input type="radio" name="readiness" value="80-100" required><span>80–100%</span></label>
+          </div>
+          <div class="scale-ends"><span>Just exploring</span><span>Ready to move</span></div>
+
+          <label class="field narrow">Approximate timeline
+            <select name="timeline" required>
+              <option value="">Select…</option>
+              <option>Just exploring</option>
+              <option>Within 1 year</option>
+              <option>1–2 years</option>
+              <option>2–5 years</option>
+              <option>5+ years</option>
+            </select>
+          </label>
+        </fieldset>
+
+        <!-- ===== STEP 4a: Vision (individuals & communities) ===== -->
+        <fieldset class="form-step" data-step="vision" data-path="community" hidden>
+          <legend>Share your vision</legend>
+          <label class="field">Briefly describe what you hope proximity could look like
+            <textarea name="vision" rows="5" maxlength="3000" required></textarea>
+          </label>
+          <label class="field">Anything else we should know? <span class="optional">(optional)</span>
+            <textarea name="notes" rows="3" maxlength="3000"></textarea>
+          </label>
+        </fieldset>
+
+        <!-- ===== STEP 3b: Your work (professionals) ===== -->
+        <fieldset class="form-step" data-step="work" data-path="professional" hidden>
+          <legend>Tell us about your work</legend>
+          <label class="field">Organization / company <input type="text" name="organization" maxlength="200" autocomplete="organization" required></label>
+          <label class="field">Website <span class="optional">(optional)</span> <input type="url" name="website" maxlength="300" placeholder="https://"></label>
+          <label class="field narrow">Professional type
+            <select name="professional_type" required>
+              <option value="">Select…</option>
+              <option value="realtor">Realtor / Agent</option>
+              <option value="developer">Developer</option>
+              <option value="investor">Investor</option>
+              <option value="builder">Builder / Contractor</option>
+              <option value="architect">Architect</option>
+              <option value="lender">Lender</option>
+              <option value="community_developer">Community Developer / Advocate / Connector</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="field">Geographic area you serve <input type="text" name="service_area" maxlength="300" placeholder="e.g., Metro Atlanta, Decatur, DeKalb County" required></label>
+        </fieldset>
+
+        <!-- ===== STEP 4b: Interest (professionals) ===== -->
+        <fieldset class="form-step" data-step="interest" data-path="professional" hidden>
+          <legend>A little more</legend>
+          <label class="field">Briefly describe your work
+            <textarea name="work_description" rows="4" maxlength="3000" required></textarea>
+          </label>
+          <label class="field">Why does the Proximate vision interest you?
+            <textarea name="interest_reason" rows="4" maxlength="3000" required></textarea>
+          </label>
+        </fieldset>
+
+        <!-- Consent (shown on the last step of either path) -->
+        <div class="consent" id="consentBlock" hidden>
+          <label class="check"><input type="checkbox" name="consent" required>
+            <span>I agree that Proximate Communities may store this information and contact me about relevant communities, professionals, opportunities, and resources.</span>
+          </label>
+          <label class="check"><input type="checkbox" name="show_on_map">
+            <span>It's okay to show my <strong>city</strong> (never my address) on the future Proximate Network map. <span class="optional">(optional)</span></span>
+          </label>
+        </div>
+
+        <p class="form-error" id="formError" role="alert" hidden></p>
+
+        <div class="form-nav">
+          <button type="button" class="btn btn-outline" id="backBtn" hidden>Back</button>
+          <button type="button" class="btn btn-primary" id="nextBtn">Continue</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn" hidden>Join the Network</button>
+        </div>
+      </form>
+
+      <!-- Thank-you screen -->
+      <div class="thanks" id="thanks" hidden>
+        <span class="label">You're in</span>
+        <h2>Thank you for joining the Proximate Network.</h2>
+        <p class="lead">We've received your information. We'll reach out when relevant communities, professionals, or opportunities become available in your area.</p>
+        <a href="index.html" class="btn btn-primary">Back to home</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a href="index.html" class="wordmark" aria-label="Proximate Communities home">
+        <span class="main">PROXIMATE</span>
+        <span class="sub">COMMUNITIES</span>
+      </a>
+      <span>© 2026 Proximate Communities · Helping people live near their people.</span>
+    </div>
+  </footer>
+
+  <script>
+    // ===== Database connection =====
+    // This key is designed to be public. The database only lets visitors ADD
+    // a sign-up; it never lets anyone read, change, or delete sign-ups.
+    const SUPABASE_URL = "https://ghcccgnoquhgpdmnipfm.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_cG9ygOUtMmYWJDR9mRzNgQ_-aixL-eo";
+
+    const form = document.getElementById("joinForm");
+    const steps = [...form.querySelectorAll(".form-step")];
+    const backBtn = document.getElementById("backBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    const consentBlock = document.getElementById("consentBlock");
+    const errorBox = document.getElementById("formError");
+    const progressFill = document.getElementById("progressFill");
+    const stepCount = document.getElementById("stepCount");
+
+    const PATHS = {
+      community: ["choose", "about", "community", "vision"],
+      professional: ["choose", "about", "work", "interest"]
+    };
+    let current = 0;
+
+    function path() {
+      const type = form.user_type.value || "community";
+      return PATHS[type];
+    }
+    function stepEl(name) { return steps.find(s => s.dataset.step === name); }
+
+    function show() {
+      const names = path();
+      steps.forEach(s => s.hidden = s.dataset.step !== names[current]);
+      const last = current === names.length - 1;
+      consentBlock.hidden = !last;
+      backBtn.hidden = current === 0;
+      nextBtn.hidden = last;
+      submitBtn.hidden = !last;
+      errorBox.hidden = true;
+      progressFill.style.width = ((current + 1) / names.length * 100) + "%";
+      stepCount.textContent = "Step " + (current + 1) + " of " + names.length;
+    }
+
+    // Check the fields on the visible step before moving on
+    function stepIsValid() {
+      const area = [stepEl(path()[current])];
+      if (!consentBlock.hidden) area.push(consentBlock);
+      for (const box of area) {
+        for (const input of box.querySelectorAll("input, select, textarea")) {
+          if (!input.checkValidity()) { input.reportValidity(); return false; }
+        }
+      }
+      return true;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (!stepIsValid()) return;
+      current++; show(); window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    backBtn.addEventListener("click", () => { current--; show(); });
+
+    // Picking a type on step 1 moves straight to step 2
+    form.querySelectorAll("input[name=user_type]").forEach(r =>
+      r.addEventListener("change", () => { current = 1; show(); })
+    );
+
+    // Gather only the answers that belong to the chosen path
+    function collect() {
+      const d = new FormData(form);
+      const v = k => (d.get(k) || "").toString().trim() || null;
+      const row = {
+        user_type: v("user_type"),
+        first_name: v("first_name"), last_name: v("last_name"),
+        email: v("email"), city: v("city"), state: v("state"),
+        consent: d.get("consent") === "on",
+        show_on_map: d.get("show_on_map") === "on"
+      };
+      if (row.user_type === "community") {
+        Object.assign(row, {
+          group_type: v("group_type"),
+          households: v("households") ? parseInt(v("households"), 10) : null,
+          housing_pathway: v("housing_pathway"),
+          readiness: v("readiness"),
+          timeline: v("timeline"),
+          vision: v("vision"),
+          notes: v("notes")
+        });
+      } else {
+        Object.assign(row, {
+          organization: v("organization"),
+          website: v("website"),
+          professional_type: v("professional_type"),
+          service_area: v("service_area"),
+          work_description: v("work_description"),
+          interest_reason: v("interest_reason")
+        });
+      }
+      return row;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!stepIsValid()) return;
+
+      // Spam trap filled in? Quietly pretend it worked.
+      if (form.company_url.value) { finish(); return; }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+      try {
+        const res = await fetch(SUPABASE_URL + "/rest/v1/network_signups", {
+          method: "POST",
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": "Bearer " + SUPABASE_KEY,
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify(collect())
+        });
+        if (!res.ok) throw new Error(await res.text());
+        finish();
+      } catch (err) {
+        console.error(err);
+        errorBox.textContent = "Sorry, something went wrong sending your information. Please check your answers and try again.";
+        errorBox.hidden = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Join the Network";
+      }
+    });
+
+    function finish() {
+      form.hidden = true;
+      document.querySelector(".progress").hidden = true;
+      stepCount.hidden = true;
+      document.getElementById("thanks").hidden = false;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Links like join.html?type=professional skip the first question
+    const preset = new URLSearchParams(location.search).get("type");
+    if (preset === "community" || preset === "professional") {
+      form.querySelector(`input[name=user_type][value=${preset}]`).checked = true;
+      current = 1;
+    }
+    show();
+  </script>
+</body>
+</html>
