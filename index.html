@@ -1,319 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ===== Page setup (not visible on the page) ===== -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Proximate Communities | Helping people live near their people</title>
-  <meta name="description" content="Building pathways for communities to pursue intentional proximity through shared vision, trusted real estate professionals, practical tools, and community coaching.">
+  <meta name="description" content="Proximate Communities helps friends, families, and existing communities move from wanting deeper community to actually living near one another.">
 
-  <!-- Fonts from Google (free) -->
+  <!-- Fonts (free, from Google) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
 
-  <!-- ===== Styles: colors, fonts, spacing ===== -->
-  <style>
-    /* Main colors. Change these to restyle the whole site. */
-    :root {
-      --cream: #f7f2ea;
-      --sand: #ece3d4;
-      --ink: #2b2a26;
-      --muted: #6b665c;
-      --green: #3f5a45;
-      --green-dark: #2f4534;
-      --clay: #b86b4b;
-      --white: #ffffff;
-      --radius: 14px;
-      --max: 1120px;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: "Inter", system-ui, sans-serif;
-      background: var(--cream);
-      color: var(--ink);
-      line-height: 1.6;
-      font-size: 17px;
-    }
-
-    h1, h2, h3 {
-      font-family: "Fraunces", Georgia, serif;
-      font-weight: 600;
-      line-height: 1.15;
-      letter-spacing: -0.01em;
-    }
-
-    a { color: inherit; }
-
-    .wrap {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .eyebrow {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--clay);
-      margin-bottom: 16px;
-    }
-
-    /* Buttons */
-    .btn {
-      display: inline-block;
-      padding: 13px 24px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 15px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      white-space: nowrap;
-    }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-primary { background: var(--green); color: var(--white); }
-    .btn-primary:hover { background: var(--green-dark); }
-    .btn-ghost { border: 1.5px solid var(--ink); color: var(--ink); }
-    .btn-ghost:hover { background: var(--ink); color: var(--cream); }
-
-    /* ----- Header / menu ----- */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(247, 242, 234, 0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--sand);
-    }
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 68px;
-    }
-    .logo {
-      font-family: "Fraunces", Georgia, serif;
-      font-weight: 600;
-      font-size: 18px;
-      letter-spacing: 0.06em;
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-      font-size: 15px;
-    }
-    .nav-links a:not(.btn) { text-decoration: none; color: var(--muted); }
-    .nav-links a:not(.btn):hover { color: var(--ink); }
-    .nav-links .btn { padding: 9px 18px; }
-
-    /* ----- Opening section ----- */
-    .hero {
-      padding-top: 80px;
-      padding-bottom: 72px;
-      display: grid;
-      grid-template-columns: 1.05fr 1fr;
-      gap: 56px;
-      align-items: center;
-    }
-    .hero h1 { font-size: clamp(40px, 5.5vw, 64px); margin-bottom: 22px; }
-    .hero p.lead { font-size: 19px; color: var(--muted); max-width: 520px; margin-bottom: 32px; }
-    .hero .actions { display: flex; gap: 12px; flex-wrap: wrap; }
-
-    .hero-art {
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--sand);
-      aspect-ratio: 3 / 2;
-    }
-    .hero-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    /* Shown only if the illustration file hasn't been added yet */
-    .hero-art.no-img {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #e6dccb, #d9cdb6);
-      color: var(--muted);
-      font-size: 14px;
-      text-align: center;
-      padding: 20px;
-    }
-
-    /* ----- Shared section styles ----- */
-    section.block { padding: 88px 0; }
-    .section-head { max-width: 680px; margin-bottom: 48px; }
-    .section-head h2 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 16px; }
-    .section-head p { font-size: 18px; color: var(--muted); }
-
-    /* ----- The Problem ----- */
-    .problem { background: var(--white); }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-    .card {
-      background: var(--cream);
-      border-radius: var(--radius);
-      padding: 28px 24px;
-    }
-    .card .num {
-      font-family: "Fraunces", Georgia, serif;
-      font-size: 28px;
-      color: var(--clay);
-      margin-bottom: 14px;
-    }
-    .card p { font-weight: 500; }
-    .card.highlight { background: var(--green); color: var(--white); }
-    .card.highlight .num { color: #e9c9a8; }
-
-    /* ----- The Vision ----- */
-    .vision { background: var(--green); color: var(--white); }
-    .vision .eyebrow { color: #e9c9a8; }
-    .vision .section-head p { color: rgba(255, 255, 255, 0.82); }
-    .values {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-    .value {
-      border-top: 2px solid rgba(255, 255, 255, 0.3);
-      padding-top: 18px;
-    }
-    .value h3 { font-size: 24px; }
-
-    /* ----- Get Started ----- */
-    .cta {
-      text-align: center;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-    .cta h2 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 16px; }
-    .cta p { color: var(--muted); font-size: 18px; margin-bottom: 28px; }
-    .soon {
-      display: inline-block;
-      background: var(--sand);
-      border-radius: 999px;
-      padding: 10px 20px;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--muted);
-    }
-
-    /* ----- Footer ----- */
-    footer {
-      border-top: 1px solid var(--sand);
-      padding: 32px 0;
-      font-size: 14px;
-      color: var(--muted);
-    }
-    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-
-    /* ----- Phones and small screens ----- */
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; padding-top: 48px; padding-bottom: 48px; gap: 36px; }
-      .cards, .values { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 600px) {
-      .nav-links li:not(:last-child) { display: none; }
-      .logo { font-size: 15px; }
-      .cards, .values { grid-template-columns: 1fr; }
-      section.block { padding: 64px 0; }
-    }
-  </style>
+  <!-- Shared site styles -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-  <!-- ===== Header / menu ===== -->
-  <header>
+  <!-- Reusable house icon used in the diagrams below (not visible on its own) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="house" viewBox="0 0 24 24">
+      <path d="M3 11 L12 3 L21 11 V21 H3 Z" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <!-- ================= HEADER / MENU ================= -->
+  <header class="site-header">
     <div class="wrap nav">
-      <a href="#" class="logo">PROXIMATE COMMUNITIES</a>
+      <a href="#" class="wordmark" aria-label="Proximate Communities home">
+        <span class="main">PROXIMATE</span>
+        <span class="sub">COMMUNITIES</span>
+      </a>
       <ul class="nav-links">
-        <li><a href="#problem">The Problem</a></li>
-        <li><a href="#vision">The Vision</a></li>
-        <li><a href="#get-started" class="btn btn-primary">Get Started</a></li>
+        <li class="hide-md"><a href="#vision">Vision</a></li>
+        <li class="hide-md"><a href="#pathways">Pathways</a></li>
+        <li class="hide-md"><a href="#how">How It Works</a></li>
+        <li class="hide-md"><a href="#resources">Resources</a></li>
+        <li><a href="#join" class="btn btn-primary">Join the Network</a></li>
       </ul>
     </div>
   </header>
 
   <main>
 
-    <!-- ===== Opening section ===== -->
-    <div class="wrap hero">
-      <div>
-        <p class="eyebrow">A different imagination for community</p>
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="wrap">
+        <span class="label">Proximate Communities</span>
         <h1>Helping people live near their people.</h1>
-        <p class="lead">Building pathways for communities to pursue intentional proximity through shared vision, trusted real estate professionals, practical tools, and community coaching.</p>
+        <p class="lead">Building pathways for communities to live in close proximity.</p>
         <div class="actions">
-          <a href="#vision" class="btn btn-primary">Learn the Vision</a>
-          <a href="#get-started" class="btn btn-ghost">Get Started</a>
+          <a href="#join" class="btn btn-primary">Start Your Journey</a>
+          <a href="#vision" class="btn btn-outline">Explore the Vision</a>
+        </div>
+        <div class="service-line">
+          <span>Real Estate Network</span>
+          <span>Community Coaching</span>
+          <span>Visual Toolkit</span>
+          <span>Proximate Book</span>
         </div>
       </div>
-
-      <!-- Illustration: upload your image to GitHub named exactly hero.png -->
       <div class="hero-art">
-        <img src="hero.png" alt="Illustration of a neighborhood where friends live close together"
-             onerror="this.parentElement.classList.add('no-img'); this.parentElement.textContent='Your neighborhood illustration will appear here once hero.png is uploaded.';">
+        <img src="images/neighborhood-soft.webp" width="1536" height="1024"
+             alt="Sketch of a walkable neighborhood where neighbors share tables, gardens, and a courtyard strung with lights">
       </div>
-    </div>
+    </section>
 
-    <!-- ===== The Problem ===== -->
-    <section class="block problem" id="problem">
+    <!-- ================= THE PROBLEM ================= -->
+    <section class="section bg-pale" id="problem">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">01 / The problem</p>
-          <h2>Community was never meant to be this distant.</h2>
-          <p>Modern life scatters friends, churches, and families across cities—making the ordinary rhythms of care, hospitality, and shared life harder to sustain.</p>
+          <span class="label">01 / The Problem</span>
+          <h2>We long for community. But modern life has pulled us apart.</h2>
+          <p class="lead">Many of us deeply value our friends, yet live 20–45 minutes from one another. The ordinary practices of shared life end up needing constant planning.</p>
         </div>
-        <div class="cards">
-          <div class="card"><div class="num">01</div><p>Friends become appointments across town.</p></div>
-          <div class="card"><div class="num">02</div><p>Care requires coordination instead of presence.</p></div>
-          <div class="card"><div class="num">03</div><p>Neighboring stays optional and unfamiliar.</p></div>
-          <div class="card highlight"><div class="num">04</div><p>Proximity can restore shared rhythms.</p></div>
+
+        <div class="compare">
+          <!-- Diagram: scattered -->
+          <div class="compare-card">
+            <span class="tag tag-grey">Today</span>
+            <svg viewBox="0 0 360 200" role="img" aria-label="Five households spread far apart, connected by long dashed lines labeled 25 and 40 minutes">
+              <g stroke="#AFC0E4" stroke-width="1.5" stroke-dasharray="5 6" fill="none">
+                <line x1="45" y1="42" x2="180" y2="102"/>
+                <line x1="180" y1="102" x2="312" y2="34"/>
+                <line x1="180" y1="102" x2="74" y2="164"/>
+                <line x1="180" y1="102" x2="290" y2="166"/>
+              </g>
+              <g font-family="Inter, sans-serif" font-size="11" fill="#5d636d" text-anchor="middle">
+                <text x="104" y="62">25 min</text>
+                <text x="262" y="60">40 min</text>
+                <text x="108" y="148">30 min</text>
+                <text x="250" y="148">35 min</text>
+              </g>
+              <g fill="#ffffff" stroke="#2E4F86" stroke-width="1.6">
+                <use href="#house" x="31" y="26" width="28" height="28"/>
+                <use href="#house" x="298" y="18" width="28" height="28"/>
+                <use href="#house" x="166" y="86" width="28" height="28"/>
+                <use href="#house" x="60" y="148" width="28" height="28"/>
+                <use href="#house" x="276" y="150" width="28" height="28"/>
+              </g>
+            </svg>
+            <h3>Scattered</h3>
+            <p>Friends become appointments across town. Care requires coordination instead of presence.</p>
+          </div>
+
+          <!-- Diagram: proximate -->
+          <div class="compare-card">
+            <span class="tag tag-blue">Proximate</span>
+            <svg viewBox="0 0 360 200" role="img" aria-label="Five households clustered around a shared table, a short walk apart">
+              <circle cx="180" cy="100" r="62" fill="#DCE4F3" opacity="0.6"/>
+              <g stroke="#2E4F86" stroke-width="1.5" fill="none">
+                <line x1="180" y1="100" x2="180" y2="56"/>
+                <line x1="180" y1="100" x2="222" y2="84"/>
+                <line x1="180" y1="100" x2="206" y2="138"/>
+                <line x1="180" y1="100" x2="154" y2="138"/>
+                <line x1="180" y1="100" x2="138" y2="84"/>
+              </g>
+              <circle cx="180" cy="100" r="9" fill="#2E4F86"/>
+              <g fill="#ffffff" stroke="#2E4F86" stroke-width="1.6">
+                <use href="#house" x="166" y="34" width="28" height="28"/>
+                <use href="#house" x="214" y="66" width="28" height="28"/>
+                <use href="#house" x="196" y="126" width="28" height="28"/>
+                <use href="#house" x="136" y="126" width="28" height="28"/>
+                <use href="#house" x="118" y="66" width="28" height="28"/>
+              </g>
+              <text x="300" y="104" font-family="Inter, sans-serif" font-size="11" fill="#2E4F86" text-anchor="middle">a short walk</text>
+              <line x1="250" y1="100" x2="268" y2="100" stroke="#2E4F86" stroke-width="1"/>
+            </svg>
+            <h3>Near one another</h3>
+            <p>Shared meals, childcare, and spontaneous hospitality happen naturally when people live close.</p>
+          </div>
+        </div>
+
+        <div class="points">
+          <div class="point"><p>Friends become appointments across town.</p></div>
+          <div class="point"><p>Neighboring stays optional and unfamiliar.</p></div>
+          <div class="point"><p>Proximity can restore the shared rhythms of life.</p></div>
         </div>
       </div>
     </section>
 
-    <!-- ===== The Vision ===== -->
-    <section class="block vision" id="vision">
+    <!-- ================= THE VISION ================= -->
+    <section class="section" id="vision">
+      <div class="wrap split">
+        <div>
+          <span class="label">02 / The Vision</span>
+          <h2>What if we chose proximity on purpose?</h2>
+          <p class="lead" style="margin-top:18px">Community becomes easier to practice when people live near each other. Proximate helps groups reconsider <em>where</em> they live as part of how they build community.</p>
+          <ul class="checklist">
+            <li>Friends living next door</li>
+            <li>Shared meals</li>
+            <li>Children growing up together</li>
+            <li>Everyday mutual care</li>
+            <li>Hospitality</li>
+            <li>Neighborhood investment</li>
+            <li>Local mission</li>
+            <li>Long-term rootedness</li>
+          </ul>
+        </div>
+        <img src="images/neighborhood.webp" width="1536" height="1024" loading="lazy"
+             alt="Sketch of neighbors gathered at tables in a shared courtyard while children play and a teen rides a bike">
+      </div>
+    </section>
+
+    <!-- ================= WHAT IS PROXIMATE COMMUNITY ================= -->
+    <section class="section bg-stone" id="what">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">02 / A different vision</p>
-          <h2>What if proximity became intentional?</h2>
-          <p>A neighborhood can become the everyday setting for belonging and flourishing.</p>
+          <span class="label">03 / What Is Proximate Community?</span>
+          <h2>A proximate community organizes life around four things.</h2>
         </div>
-        <div class="values">
-          <div class="value"><h3>Rootedness</h3></div>
-          <div class="value"><h3>Shared life</h3></div>
-          <div class="value"><h3>Hospitality</h3></div>
-          <div class="value"><h3>Mission</h3></div>
+        <div class="grid-4">
+          <div class="mark-card"><span class="num">01</span><h3>Shared Life</h3><p>Regular rhythms of gathering and mutual support.</p></div>
+          <div class="mark-card"><span class="num">02</span><h3>Formation</h3><p>Growing as whole people and households alongside one another.</p></div>
+          <div class="mark-card"><span class="num">03</span><h3>Mission</h3><p>Seeking the flourishing of neighbors and marginalized people.</p></div>
+          <div class="mark-card"><span class="num">04</span><h3>Rootedness</h3><p>Establishing long-term roots in a particular place.</p></div>
+        </div>
+        <div class="four-ps">
+          <div class="title">The 4 Ps of Proximity</div>
+          <div class="p">People</div>
+          <div class="p">Place</div>
+          <div class="p">Purpose</div>
+          <div class="p">The Poor</div>
         </div>
       </div>
     </section>
 
-    <!-- ===== Get Started (placeholder until forms are built) ===== -->
-    <section class="block" id="get-started">
-      <div class="wrap cta">
-        <p class="eyebrow">03 / Get started</p>
-        <h2>Find your people, close to home.</h2>
-        <p>We're building simple ways to connect people pursuing intentional community with each other and with trusted, proximity-minded real estate professionals.</p>
-        <span class="soon">Sign-up coming soon</span>
+    <!-- ================= THREE PATHWAYS ================= -->
+    <section class="section" id="pathways">
+      <div class="wrap">
+        <div class="section-head center">
+          <span class="label">04 / Three Pathways</span>
+          <h2>There's more than one way to live near your people.</h2>
+        </div>
+
+        <div class="pathways">
+          <!-- Existing neighborhood -->
+          <div class="pathway">
+            <svg viewBox="0 0 240 120" role="img" aria-label="A street of homes with three households living a few doors apart">
+              <line x1="8" y1="100" x2="232" y2="100" stroke="#AFC0E4" stroke-width="2"/>
+              <g stroke="#2E4F86" stroke-width="1.6">
+                <use href="#house" x="14" y="62" width="34" height="34" fill="#DCE4F3"/>
+                <use href="#house" x="58" y="62" width="34" height="34" fill="#ffffff"/>
+                <use href="#house" x="102" y="62" width="34" height="34" fill="#DCE4F3"/>
+                <use href="#house" x="146" y="62" width="34" height="34" fill="#ffffff"/>
+                <use href="#house" x="190" y="62" width="34" height="34" fill="#DCE4F3"/>
+              </g>
+              <g stroke="#AFC0E4" stroke-width="1.5"><line x1="14" y1="40" x2="224" y2="40" stroke-dasharray="3 5"/></g>
+            </svg>
+            <h3>Existing Neighborhood</h3>
+            <p>Households buy or rent homes near one another in a neighborhood that already exists.</p>
+          </div>
+
+          <div class="arrow" aria-hidden="true">→</div>
+
+          <!-- New development -->
+          <div class="pathway">
+            <svg viewBox="0 0 240 120" role="img" aria-label="A cluster of new homes arranged around a shared green inside a site boundary">
+              <rect x="24" y="8" width="192" height="104" rx="4" fill="none" stroke="#AFC0E4" stroke-width="1.5" stroke-dasharray="6 5"/>
+              <circle cx="120" cy="64" r="20" fill="#DCE4F3" stroke="#2E4F86" stroke-width="1.2"/>
+              <g fill="#ffffff" stroke="#2E4F86" stroke-width="1.6">
+                <use href="#house" x="44" y="20" width="28" height="28"/>
+                <use href="#house" x="106" y="14" width="28" height="28"/>
+                <use href="#house" x="168" y="20" width="28" height="28"/>
+                <use href="#house" x="44" y="72" width="28" height="28"/>
+                <use href="#house" x="168" y="72" width="28" height="28"/>
+              </g>
+            </svg>
+            <h3>New Development</h3>
+            <p>A community works with developers, builders, investors, or landowners to create a cluster of homes.</p>
+          </div>
+
+          <div class="arrow" aria-hidden="true">→</div>
+
+          <!-- Shared property -->
+          <div class="pathway">
+            <svg viewBox="0 0 240 120" role="img" aria-label="One shared lot with a main house, two smaller dwellings, and a garden">
+              <rect x="30" y="10" width="180" height="100" rx="4" fill="#F3F6FB" stroke="#2E4F86" stroke-width="1.5"/>
+              <g stroke="#2E4F86" stroke-width="1.6" fill="#ffffff">
+                <use href="#house" x="46" y="30" width="56" height="56"/>
+                <use href="#house" x="122" y="22" width="32" height="32"/>
+                <use href="#house" x="162" y="22" width="32" height="32"/>
+              </g>
+              <g stroke="#AFC0E4" stroke-width="1.5" fill="none">
+                <rect x="124" y="68" width="70" height="28" rx="3"/>
+                <line x1="136" y1="74" x2="136" y2="90"/><line x1="150" y1="74" x2="150" y2="90"/>
+                <line x1="164" y1="74" x2="164" y2="90"/><line x1="178" y1="74" x2="178" y2="90"/>
+              </g>
+            </svg>
+            <h3>Shared Property</h3>
+            <p>A group acquires or shares a property with multiple dwellings or another shared arrangement.</p>
+          </div>
+        </div>
+
+        <p class="not-sure"><strong>Not sure yet?</strong> That's okay. Proximate helps you explore before choosing a model.</p>
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section class="section bg-navy" id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label">05 / How It Works</span>
+          <h2>From wanting community to living near it.</h2>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="dot">01</div><h3>Discover the Vision</h3><p>Explore stories, ideas, the Proximate book, and free tools.</p></div>
+          <div class="step"><div class="dot">02</div><h3>Tell Us About Your Community</h3><p>Submit a project or join the network.</p></div>
+          <div class="step"><div class="dot">03</div><h3>Explore Your Options</h3><p>Clarify priorities, readiness, geography, budget, and pathways.</p></div>
+          <div class="step"><div class="dot">04</div><h3>Get Connected</h3><p>Receive introductions to relevant professionals, communities, and people.</p></div>
+          <div class="step"><div class="dot">05</div><h3>Pursue Proximity</h3><p>Work toward buying, relocating, or developing a proximate community.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= NETWORK ================= -->
+    <section class="section" id="network">
+      <div class="wrap">
+        <div class="section-head center">
+          <span class="label">06 / The Proximate Network</span>
+          <h2>Two sides of one network.</h2>
+          <p class="lead">Whether you're pursuing proximity or can help others get there, there's a place for you.</p>
+        </div>
+        <div class="network">
+          <div class="network-card communities">
+            <span class="label">Individuals &amp; Communities</span>
+            <h3>Looking to live near your people?</h3>
+            <p>For house churches, small groups, friend groups, families, and individuals. You don't need everything figured out to join.</p>
+            <ul>
+              <li>Move near existing friends</li>
+              <li>Find homes in the same neighborhood</li>
+              <li>Explore land, duplexes, ADUs, or shared property</li>
+              <li>Find others nearby pursuing proximity</li>
+            </ul>
+            <a href="#join" class="btn btn-primary">Join the Proximate Network</a>
+          </div>
+          <div class="network-card pros">
+            <span class="label">Real Estate &amp; Community Professionals</span>
+            <h3>Can you help communities get there?</h3>
+            <p>For realtors, developers, investors, builders, architects, lenders, and community connectors.</p>
+            <ul>
+              <li>Several households searching together</li>
+              <li>Coordinated and adjacent-property searches</li>
+              <li>Land, small developments, and shared property</li>
+              <li>Clients who value proximity and rootedness</li>
+            </ul>
+            <a href="#join" class="btn btn-outline">Join the Professional Network</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RESOURCES ================= -->
+    <section class="section bg-pale" id="resources">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label">07 / Resources</span>
+          <h2>Tools for the journey.</h2>
+        </div>
+        <div class="grid-4">
+          <div class="resource"><h3>Community Planning Dashboard</h3><p>A workbook for organizing housing priorities, budgets, neighborhoods, and readiness.</p><span class="soon">Coming soon</span></div>
+          <div class="resource"><h3>15 Steps to Proximity</h3><p>A one-page practical guide for communities beginning the journey.</p><span class="soon">Coming soon</span></div>
+          <div class="resource"><h3>The Proximate Book</h3><p>The theological, relational, and cultural vision for proximate life.</p><span class="soon">Coming soon</span></div>
+          <div class="resource"><h3>Coaching &amp; Training</h3><p>For communities preparing for proximity and professionals serving them.</p><span class="soon">Coming soon</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= QUOTE ================= -->
+    <section class="section-tight quote">
+      <div class="wrap">
+        <blockquote>Proximate exists to put proximity back in community.</blockquote>
+      </div>
+    </section>
+
+    <!-- ================= JOIN (placeholder until the intake form is built) ================= -->
+    <section class="section bg-navy join" id="join">
+      <div class="wrap">
+        <span class="label">Join the Proximate Network</span>
+        <h2>Start your journey toward proximity.</h2>
+        <p>Joining the network allows Proximate to contact you when relevant communities, professionals, opportunities, or resources become available in your area.</p>
+        <div class="actions">
+          <span class="btn btn-light is-disabled">I'm an Individual or Community</span>
+          <span class="btn btn-light is-disabled">I'm a Professional</span>
+        </div>
+        <p class="note">Sign-up opens soon.</p>
       </div>
     </section>
 
   </main>
 
-  <!-- ===== Footer ===== -->
-  <footer>
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
     <div class="wrap">
-      <span>© 2026 Proximate Communities</span>
-      <span>Helping people live near their people.</span>
+      <a href="#" class="wordmark" aria-label="Proximate Communities home">
+        <span class="main">PROXIMATE</span>
+        <span class="sub">COMMUNITIES</span>
+      </a>
+      <span>© 2026 Proximate Communities · Helping people live near their people.</span>
     </div>
   </footer>
 
