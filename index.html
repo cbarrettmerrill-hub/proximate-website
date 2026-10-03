@@ -1,10 +1,321 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My Website</title>
-  </head>
-  <body>
-    <h1>Hello, Proximate Communities!</h1>
-    <p>My website is live.</p>
-  </body>
+<html lang="en">
+<head>
+  <!-- ===== Page setup (not visible on the page) ===== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proximate Communities | Helping people live near their people</title>
+  <meta name="description" content="Building pathways for communities to pursue intentional proximity through shared vision, trusted real estate professionals, practical tools, and community coaching.">
+
+  <!-- Fonts from Google (free) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- ===== Styles: colors, fonts, spacing ===== -->
+  <style>
+    /* Main colors. Change these to restyle the whole site. */
+    :root {
+      --cream: #f7f2ea;
+      --sand: #ece3d4;
+      --ink: #2b2a26;
+      --muted: #6b665c;
+      --green: #3f5a45;
+      --green-dark: #2f4534;
+      --clay: #b86b4b;
+      --white: #ffffff;
+      --radius: 14px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 17px;
+    }
+
+    h1, h2, h3 {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 16px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 13px 24px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--green); color: var(--white); }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-ghost { border: 1.5px solid var(--ink); color: var(--ink); }
+    .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+
+    /* ----- Header / menu ----- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(247, 242, 234, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--sand);
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+      font-size: 15px;
+    }
+    .nav-links a:not(.btn) { text-decoration: none; color: var(--muted); }
+    .nav-links a:not(.btn):hover { color: var(--ink); }
+    .nav-links .btn { padding: 9px 18px; }
+
+    /* ----- Opening section ----- */
+    .hero {
+      padding-top: 80px;
+      padding-bottom: 72px;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .hero h1 { font-size: clamp(40px, 5.5vw, 64px); margin-bottom: 22px; }
+    .hero p.lead { font-size: 19px; color: var(--muted); max-width: 520px; margin-bottom: 32px; }
+    .hero .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .hero-art {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--sand);
+      aspect-ratio: 3 / 2;
+    }
+    .hero-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* Shown only if the illustration file hasn't been added yet */
+    .hero-art.no-img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #e6dccb, #d9cdb6);
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* ----- Shared section styles ----- */
+    section.block { padding: 88px 0; }
+    .section-head { max-width: 680px; margin-bottom: 48px; }
+    .section-head h2 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 16px; }
+    .section-head p { font-size: 18px; color: var(--muted); }
+
+    /* ----- The Problem ----- */
+    .problem { background: var(--white); }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+    }
+    .card .num {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 28px;
+      color: var(--clay);
+      margin-bottom: 14px;
+    }
+    .card p { font-weight: 500; }
+    .card.highlight { background: var(--green); color: var(--white); }
+    .card.highlight .num { color: #e9c9a8; }
+
+    /* ----- The Vision ----- */
+    .vision { background: var(--green); color: var(--white); }
+    .vision .eyebrow { color: #e9c9a8; }
+    .vision .section-head p { color: rgba(255, 255, 255, 0.82); }
+    .values {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .value {
+      border-top: 2px solid rgba(255, 255, 255, 0.3);
+      padding-top: 18px;
+    }
+    .value h3 { font-size: 24px; }
+
+    /* ----- Get Started ----- */
+    .cta {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .cta h2 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 16px; }
+    .cta p { color: var(--muted); font-size: 18px; margin-bottom: 28px; }
+    .soon {
+      display: inline-block;
+      background: var(--sand);
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    /* ----- Footer ----- */
+    footer {
+      border-top: 1px solid var(--sand);
+      padding: 32px 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+    /* ----- Phones and small screens ----- */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 48px; padding-bottom: 48px; gap: 36px; }
+      .cards, .values { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav-links li:not(:last-child) { display: none; }
+      .logo { font-size: 15px; }
+      .cards, .values { grid-template-columns: 1fr; }
+      section.block { padding: 64px 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== Header / menu ===== -->
+  <header>
+    <div class="wrap nav">
+      <a href="#" class="logo">PROXIMATE COMMUNITIES</a>
+      <ul class="nav-links">
+        <li><a href="#problem">The Problem</a></li>
+        <li><a href="#vision">The Vision</a></li>
+        <li><a href="#get-started" class="btn btn-primary">Get Started</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== Opening section ===== -->
+    <div class="wrap hero">
+      <div>
+        <p class="eyebrow">A different imagination for community</p>
+        <h1>Helping people live near their people.</h1>
+        <p class="lead">Building pathways for communities to pursue intentional proximity through shared vision, trusted real estate professionals, practical tools, and community coaching.</p>
+        <div class="actions">
+          <a href="#vision" class="btn btn-primary">Learn the Vision</a>
+          <a href="#get-started" class="btn btn-ghost">Get Started</a>
+        </div>
+      </div>
+
+      <!-- Illustration: upload your image to GitHub named exactly hero.png -->
+      <div class="hero-art">
+        <img src="hero.png" alt="Illustration of a neighborhood where friends live close together"
+             onerror="this.parentElement.classList.add('no-img'); this.parentElement.textContent='Your neighborhood illustration will appear here once hero.png is uploaded.';">
+      </div>
+    </div>
+
+    <!-- ===== The Problem ===== -->
+    <section class="block problem" id="problem">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">01 / The problem</p>
+          <h2>Community was never meant to be this distant.</h2>
+          <p>Modern life scatters friends, churches, and families across cities—making the ordinary rhythms of care, hospitality, and shared life harder to sustain.</p>
+        </div>
+        <div class="cards">
+          <div class="card"><div class="num">01</div><p>Friends become appointments across town.</p></div>
+          <div class="card"><div class="num">02</div><p>Care requires coordination instead of presence.</p></div>
+          <div class="card"><div class="num">03</div><p>Neighboring stays optional and unfamiliar.</p></div>
+          <div class="card highlight"><div class="num">04</div><p>Proximity can restore shared rhythms.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== The Vision ===== -->
+    <section class="block vision" id="vision">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">02 / A different vision</p>
+          <h2>What if proximity became intentional?</h2>
+          <p>A neighborhood can become the everyday setting for belonging and flourishing.</p>
+        </div>
+        <div class="values">
+          <div class="value"><h3>Rootedness</h3></div>
+          <div class="value"><h3>Shared life</h3></div>
+          <div class="value"><h3>Hospitality</h3></div>
+          <div class="value"><h3>Mission</h3></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Get Started (placeholder until forms are built) ===== -->
+    <section class="block" id="get-started">
+      <div class="wrap cta">
+        <p class="eyebrow">03 / Get started</p>
+        <h2>Find your people, close to home.</h2>
+        <p>We're building simple ways to connect people pursuing intentional community with each other and with trusted, proximity-minded real estate professionals.</p>
+        <span class="soon">Sign-up coming soon</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Proximate Communities</span>
+      <span>Helping people live near their people.</span>
+    </div>
+  </footer>
+
+</body>
 </html>
