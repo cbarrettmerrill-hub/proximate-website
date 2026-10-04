@@ -90,6 +90,12 @@
         <fieldset class="form-step" data-step="community" data-path="community" hidden>
           <legend>Tell us about your community</legend>
 
+          <p class="q">Where are you in the journey?</p>
+          <div class="pill-group">
+            <label class="pill"><input type="radio" name="journey_stage" value="exploring" required><span>Exploring or planning</span></label>
+            <label class="pill"><input type="radio" name="journey_stage" value="living" required><span>Already living near one another</span></label>
+          </div>
+
           <p class="q">Are you an individual or an existing community?</p>
           <div class="pill-group">
             <label class="pill"><input type="radio" name="group_type" value="individual" required><span>Individual / household</span></label>
@@ -100,14 +106,16 @@
             <input type="number" name="households" min="1" max="500" inputmode="numeric" required>
           </label>
 
-          <p class="q">Which housing pathway interests you?</p>
+          <p class="q" data-text-exploring="Which housing pathway interests you?" data-text-living="Which best describes how you live near one another?">Which housing pathway interests you?</p>
           <div class="pill-group">
             <label class="pill"><input type="radio" name="housing_pathway" value="existing_neighborhood" required><span>Existing neighborhood</span></label>
             <label class="pill"><input type="radio" name="housing_pathway" value="new_development" required><span>New development</span></label>
             <label class="pill"><input type="radio" name="housing_pathway" value="shared_property" required><span>Shared property</span></label>
-            <label class="pill"><input type="radio" name="housing_pathway" value="not_sure" required><span>Not sure yet</span></label>
+            <label class="pill" data-show="exploring"><input type="radio" name="housing_pathway" value="not_sure" required><span>Not sure yet</span></label>
+            <label class="pill" data-show="living"><input type="radio" name="housing_pathway" value="other" required><span>Something else</span></label>
           </div>
 
+          <div data-show="exploring">
           <p class="q">How ready are you to move toward proximity?</p>
           <div class="scale">
             <label><input type="radio" name="readiness" value="0-20" required><span>0–20%</span></label>
@@ -128,12 +136,13 @@
               <option>5+ years</option>
             </select>
           </label>
+          </div>
         </fieldset>
 
         <!-- ===== STEP 4a: Vision (individuals & communities) ===== -->
         <fieldset class="form-step" data-step="vision" data-path="community" hidden>
-          <legend>Share your vision</legend>
-          <label class="field">Briefly describe what you hope proximity could look like
+          <legend data-text-exploring="Share your vision" data-text-living="Share your story">Share your vision</legend>
+          <label class="field"><span data-text-exploring="Briefly describe what you hope proximity could look like" data-text-living="Briefly describe your community and how you live near one another">Briefly describe what you hope proximity could look like</span>
             <textarea name="vision" rows="5" maxlength="3000" required></textarea>
           </label>
           <label class="field">Anything else we should know? <span class="optional">(optional)</span>
@@ -272,6 +281,25 @@
     });
     backBtn.addEventListener("click", () => { current--; show(); });
 
+    // Show or hide questions based on "Where are you in the journey?"
+    function applyJourney() {
+      const stage = form.journey_stage.value || "exploring";
+      form.querySelectorAll("[data-show]").forEach(el => {
+        const on = el.dataset.show === stage;
+        el.hidden = !on;
+        el.querySelectorAll("input, select, textarea").forEach(i => i.disabled = !on);
+        if (el.matches("input, select, textarea")) el.disabled = !on;
+        el.querySelectorAll(":scope > input").forEach(i => i.disabled = !on);
+      });
+      form.querySelectorAll("[data-text-" + stage + "]").forEach(el => {
+        el.textContent = el.getAttribute("data-text-" + stage);
+      });
+      // Clear a pathway answer that no longer applies
+      const picked = form.querySelector("input[name=housing_pathway]:checked");
+      if (picked && picked.disabled) picked.checked = false;
+    }
+    form.querySelectorAll("input[name=journey_stage]").forEach(r => r.addEventListener("change", applyJourney));
+
     // Picking a type on step 1 moves straight to step 2
     form.querySelectorAll("input[name=user_type]").forEach(r =>
       r.addEventListener("change", () => { current = 1; show(); })
@@ -290,6 +318,7 @@
       };
       if (row.user_type === "community") {
         Object.assign(row, {
+          journey_stage: v("journey_stage"),
           group_type: v("group_type"),
           households: v("households") ? parseInt(v("households"), 10) : null,
           housing_pathway: v("housing_pathway"),
@@ -356,6 +385,7 @@
       form.querySelector(`input[name=user_type][value=${preset}]`).checked = true;
       current = 1;
     }
+    applyJourney();
     show();
   </script>
 </body>
