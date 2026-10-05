@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Community Rule of Life Grid | Proximate Communities</title>
+  <meta name="description" content="A free, printable one-page grid to help your community name its vision, values, and shared rhythms of life.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="join-page">
+
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="index.html" class="wordmark" aria-label="Proximate Communities home">
+        <span class="main">PROXIMATE</span>
+        <span class="sub">COMMUNITIES</span>
+      </a>
+      <ul class="nav-links">
+        <li class="hide-md"><a href="index.html#resources">Resources</a></li>
+        <li><a href="join.html" class="btn btn-primary">Join the Network</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="wrap lm-layout">
+    <section class="lm-info">
+      <span class="label">Free resource</span>
+      <h1>Community Rule of Life Grid</h1>
+      <p class="lead">A one-page, printable grid to help your community name who you are, what you value, and the shared rhythms you'll practice together, from daily habits to annual traditions.</p>
+
+      <figure class="lm-preview">
+        <img src="images/rule-of-life-preview.webp" width="760" height="587"
+             alt="Preview of the Community Rule of Life Grid: vision and values boxes above a grid of practices by rhythm">
+      </figure>
+
+      <h2 class="lm-sub">What's inside</h2>
+      <ul class="lm-list">
+        <li><strong>Vision / mission statement:</strong> who you are, and what you're living near each other for</li>
+        <li><strong>Five shared values</strong> to anchor your life together</li>
+        <li><strong>A practices grid</strong> across seven areas: Spiritual Disciplines, Mind, Body, Work, Rest, Finances &amp; Generosity, and Hospitality &amp; Mission</li>
+        <li><strong>Five rhythms:</strong> daily, weekly, monthly, quarterly, and annually</li>
+        <li>Letter-size landscape PDF, ready to print and fill in together</li>
+      </ul>
+    </section>
+
+    <aside class="form-card lm-card">
+      <form class="gate-form" data-resource="rule-of-life-grid" data-done="lmDone" novalidate>
+        <h2>Get the free grid</h2>
+        <p class="lm-card-sub">Enter your name and email to download.</p>
+        <div class="trap" aria-hidden="true"><label>Leave this empty <input type="text" name="website_url" tabindex="-1" autocomplete="off"></label></div>
+        <label class="field">Name <input type="text" name="name" maxlength="100" autocomplete="name" required></label>
+        <label class="field">Email <input type="email" name="email" maxlength="254" autocomplete="email" required></label>
+        <label class="check"><input type="checkbox" name="wants_updates">
+          <span>Send me occasional updates and new resources from Proximate Communities.</span>
+        </label>
+        <p class="form-error" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primary lm-btn">Download the grid</button>
+        <p class="lm-fine">We'll never share your email.</p>
+      </form>
+
+      <div id="lmDone" class="lm-done" hidden>
+        <span class="label">Your download is starting</span>
+        <h2>Thank you!</h2>
+        <p>If it doesn't start automatically, use the button below. The link works for 10 minutes.</p>
+        <a class="btn btn-primary download-again" href="#">Download the grid</a>
+        <div class="lm-next">
+          <p>Ready to find others pursuing proximity near you?</p>
+          <a href="join.html">Join the Proximate Network &rarr;</a>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a href="index.html" class="wordmark" aria-label="Proximate Communities home">
+        <span class="main">PROXIMATE</span>
+        <span class="sub">COMMUNITIES</span>
+      </a>
+      <span><a href="contact.html" class="footer-link">Contact</a> · © 2026 Proximate Communities · Helping people live near their people.</span>
+    </div>
+  </footer>
+
+  <script src="js/lead-magnet.js"></script>
+</body>
+</html>
