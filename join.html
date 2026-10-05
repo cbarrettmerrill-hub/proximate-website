@@ -96,10 +96,10 @@
             <label class="pill"><input type="radio" name="journey_stage" value="living" required><span>Already living near one another</span></label>
           </div>
 
-          <p class="q">Are you an individual or an existing community?</p>
+          <p class="q">Is this just you, or a group of households?</p>
           <div class="pill-group">
-            <label class="pill"><input type="radio" name="group_type" value="individual" required><span>Individual / household</span></label>
-            <label class="pill"><input type="radio" name="group_type" value="community" required><span>Existing community or group</span></label>
+            <label class="pill"><input type="radio" name="group_type" value="individual" required><span>Just me / my household</span></label>
+            <label class="pill"><input type="radio" name="group_type" value="community" required><span>A group of households</span></label>
           </div>
 
           <label class="field narrow">About how many households are involved?
@@ -145,6 +145,16 @@
           <label class="field"><span data-text-exploring="Briefly describe what you hope proximity could look like" data-text-living="Briefly describe your community and how you live near one another">Briefly describe what you hope proximity could look like</span>
             <textarea name="vision" rows="5" maxlength="3000" required></textarea>
           </label>
+          <p class="q">What connections are you looking for? <span class="optional">(choose any)</span></p>
+          <div class="pill-group">
+            <label class="pill"><input type="checkbox" name="looking_for" value="households"><span>Households to live near</span></label>
+            <label class="pill"><input type="checkbox" name="looking_for" value="join_community"><span>An existing community to join</span></label>
+            <label class="pill"><input type="checkbox" name="looking_for" value="realtor"><span>A realtor</span></label>
+            <label class="pill"><input type="checkbox" name="looking_for" value="builder_developer"><span>Builders or developers</span></label>
+            <label class="pill"><input type="checkbox" name="looking_for" value="land"><span>Land or property</span></label>
+            <label class="pill"><input type="checkbox" name="looking_for" value="financing"><span>Financing help</span></label>
+            <label class="pill"><input type="checkbox" name="looking_for" value="coaching"><span>Community coaching</span></label>
+          </div>
           <label class="field">Anything else we should know? <span class="optional">(optional)</span>
             <textarea name="notes" rows="3" maxlength="3000"></textarea>
           </label>
@@ -154,7 +164,10 @@
         <fieldset class="form-step" data-step="work" data-path="professional" hidden>
           <legend>Tell us about your work</legend>
           <label class="field">Organization / company <input type="text" name="organization" maxlength="200" autocomplete="organization" required></label>
-          <label class="field">Website <span class="optional">(optional)</span> <input type="url" name="website" maxlength="300" placeholder="https://"></label>
+          <div class="field-row">
+            <label class="field">Website <span class="optional">(optional)</span> <input type="url" name="website" maxlength="300" placeholder="https://"></label>
+            <label class="field">Business phone <span class="optional">(optional)</span> <input type="tel" name="phone" maxlength="40" autocomplete="tel"></label>
+          </div>
           <label class="field narrow">Professional type
             <select name="professional_type" required>
               <option value="">Select…</option>
@@ -187,9 +200,30 @@
           <label class="check"><input type="checkbox" name="consent" required>
             <span>I agree that Proximate Communities may store this information and contact me about relevant communities, professionals, opportunities, and resources.</span>
           </label>
-          <label class="check"><input type="checkbox" name="show_on_map">
-            <span>It's okay to show my <strong>city</strong> (never my address) on the future Proximate Network map. <span class="optional">(optional)</span></span>
-          </label>
+
+          <div class="map-optins">
+            <p class="optin-title">Map &amp; connections <span class="optional">(all optional)</span></p>
+            <label class="check"><input type="checkbox" name="show_on_map" id="showOnMap">
+              <span>Show me on the Proximate Network map. Only your <strong>city</strong> is shown, never your address.</span>
+            </label>
+
+            <div class="optin-nested" id="mapExtras">
+              <label class="check" data-only="community"><input type="checkbox" name="show_name">
+                <span>Show my first name and last initial (e.g., &ldquo;Sarah M.&rdquo;).</span>
+              </label>
+              <label class="check" data-only="professional"><input type="checkbox" name="public_listing">
+                <span>List my business publicly: my name, organization, professional type, website, service area, email, and phone.</span>
+              </label>
+              <label class="check"><input type="checkbox" name="allow_messages">
+                <span>Let network members send me messages through the site. <strong>Your email stays private</strong>; you choose whether to reply.</span>
+              </label>
+              <label class="field">Short public intro <span class="optional">(optional, shown on the map)</span>
+                <textarea name="public_intro" rows="2" maxlength="280"
+                  data-ph-community="e.g., Three families from our church hoping to share a street in East Atlanta."
+                  data-ph-professional="e.g., Realtor helping groups find homes near one another across Metro Atlanta."></textarea>
+              </label>
+            </div>
+          </div>
         </div>
 
         <p class="form-error" id="formError" role="alert" hidden></p>
@@ -255,6 +289,7 @@
       steps.forEach(s => s.hidden = s.dataset.step !== names[current]);
       const last = current === names.length - 1;
       consentBlock.hidden = !last;
+      applyOptins();
       backBtn.hidden = current === 0;
       nextBtn.hidden = last;
       submitBtn.hidden = !last;
@@ -300,6 +335,29 @@
     }
     form.querySelectorAll("input[name=journey_stage]").forEach(r => r.addEventListener("change", applyJourney));
 
+    // Map & connections: show the right options for each path, and only
+    // enable the extra options when "Show me on the map" is checked
+    const showOnMap = document.getElementById("showOnMap");
+    const mapExtras = document.getElementById("mapExtras");
+    function applyOptins() {
+      const type = form.user_type.value || "community";
+      mapExtras.querySelectorAll("[data-only]").forEach(el => {
+        const on = el.dataset.only === type;
+        el.hidden = !on;
+        el.querySelector("input").disabled = !on;
+        if (!on) el.querySelector("input").checked = false;
+      });
+      const enabled = showOnMap.checked;
+      mapExtras.classList.toggle("is-off", !enabled);
+      mapExtras.querySelectorAll("input, textarea").forEach(i => {
+        if (i.closest("[data-only]") && i.closest("[data-only]").hidden) return;
+        i.disabled = !enabled;
+      });
+      const intro = form.public_intro;
+      intro.placeholder = intro.getAttribute("data-ph-" + type) || "";
+    }
+    showOnMap.addEventListener("change", applyOptins);
+
     // Picking a type on step 1 moves straight to step 2
     form.querySelectorAll("input[name=user_type]").forEach(r =>
       r.addEventListener("change", () => { current = 1; show(); })
@@ -316,6 +374,12 @@
         consent: d.get("consent") === "on",
         show_on_map: d.get("show_on_map") === "on"
       };
+      // Extra map options only count when they chose to be on the map
+      const onMap = row.show_on_map;
+      Object.assign(row, {
+        allow_messages: onMap && d.get("allow_messages") === "on",
+        public_intro: onMap ? v("public_intro") : null
+      });
       if (row.user_type === "community") {
         Object.assign(row, {
           journey_stage: v("journey_stage"),
@@ -325,12 +389,16 @@
           readiness: v("readiness"),
           timeline: v("timeline"),
           vision: v("vision"),
-          notes: v("notes")
+          notes: v("notes"),
+          looking_for: d.getAll("looking_for").map(String),
+          show_name: onMap && d.get("show_name") === "on"
         });
       } else {
         Object.assign(row, {
           organization: v("organization"),
           website: v("website"),
+          phone: v("phone"),
+          public_listing: onMap && d.get("public_listing") === "on",
           professional_type: v("professional_type"),
           service_area: v("service_area"),
           work_description: v("work_description"),

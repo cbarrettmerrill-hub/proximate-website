@@ -108,6 +108,25 @@
     .tag.living { background: #E7EDF8; color: #4A67A0; }
     .tag.professional { background: #F1ECE3; color: #6E5D43; }
     .contact p { font-size: 14.5px; color: var(--charcoal); }
+    .contact h4 { font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--charcoal); margin: 2px 0 2px; }
+    .contact .meta { font-size: 13.5px; color: var(--muted); margin-top: 4px; }
+    .contact .intro { font-family: var(--font-quote); font-style: italic; font-size: 18px; line-height: 1.35; color: var(--navy); margin: 8px 0 4px; }
+    .looking { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .looking span { font-size: 12.5px; background: #F3F6FB; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; color: var(--charcoal); }
+    .links { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; }
+    .links a { font-size: 14px; font-weight: 500; color: var(--navy); word-break: break-all; }
+    .msg-btn {
+      margin-top: 12px; font: 600 13px var(--font-head); letter-spacing: 0.03em; cursor: pointer;
+      background: var(--white); color: var(--navy); border: 1.5px solid var(--navy); border-radius: 4px; padding: 8px 14px;
+    }
+    .msg-btn:hover { background: var(--pale-blue); }
+    .modal { position: fixed; inset: 0; z-index: 100; background: rgba(51,56,64,0.45); display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .modal-box { background: var(--white); border-radius: var(--radius); padding: 28px; width: 100%; max-width: 480px; max-height: 92vh; overflow: auto; }
+    .modal-box h2 { font-size: 24px; margin-bottom: 4px; }
+    .modal-box .sub { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+    .modal-box .lead { font-size: 16px; margin-bottom: 18px; }
+    .meta-note { font-size: 13px; color: var(--muted); margin: -6px 0 16px; }
+    .modal-box .btn { cursor: pointer; font-family: var(--font-head); }
 
     .summary-list { list-style: none; margin-top: 16px; }
     .summary-list li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f2f5; font-size: 15px; }
@@ -174,6 +193,28 @@
     </div>
   </main>
 
+  <!-- Send-a-message pop-up -->
+  <div class="modal" id="msgModal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="msgTitle">
+      <button class="panel-close" type="button" id="msgClose" aria-label="Close">&times;</button>
+      <h2 id="msgTitle">Send a message</h2>
+      <p class="sub" id="msgTo"></p>
+      <form id="msgForm" novalidate>
+        <div class="trap" aria-hidden="true"><label>Leave empty <input type="text" name="website_url" tabindex="-1" autocomplete="off"></label></div>
+        <label class="field">Your name <input type="text" name="name" maxlength="100" autocomplete="name" required></label>
+        <label class="field">Your email <input type="email" name="email" maxlength="254" autocomplete="email" required></label>
+        <label class="field">Message <textarea name="message" rows="5" minlength="10" maxlength="2000" required placeholder="Introduce yourself and what you're hoping to connect about."></textarea></label>
+        <p class="meta-note">They'll receive your message by email and can reply to you directly. Their email address stays private.</p>
+        <p class="form-error" id="msgError" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primary" id="msgSend">Send message</button>
+      </form>
+      <div id="msgDone" hidden>
+        <p class="lead">Your message is on its way. If they'd like to connect, they'll reply to your email.</p>
+        <button type="button" class="btn btn-outline" id="msgDoneClose">Close</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="wrap">
       <a href="index.html" class="wordmark" aria-label="Proximate Communities home">
@@ -206,25 +247,35 @@
       builder: "Builder / Contractor", architect: "Architect", lender: "Lender",
       community_developer: "Community Developer / Connector", other: "Other professional"
     };
-    const GROUP = { individual: "Individual / household", community: "Existing community" };
+    const GROUP = { individual: "Single household", community: "Group of households" };
+    const LOOKING = {
+      households: "Households to live near", join_community: "A community to join",
+      realtor: "A realtor", builder_developer: "Builders or developers",
+      land: "Land or property", financing: "Financing help", coaching: "Community coaching"
+    };
+    // Turn on once the private message relay is set up
+    const MESSAGING_ENABLED = false;
 
-    // Sample data, only shown with ?demo=1 in the address
+    // Sample data, only shown with ?demo=1 in the address. Not real people.
+    let demoN = 0;
+    const D = (o) => Object.assign({ id: "demo-" + (++demoN), display_name:null, group_type:null, households:null, housing_pathway:null, timeline:null,
+      public_intro:null, looking_for:[], professional_type:null, organization:null, service_area:null,
+      website:null, email:null, phone:null, can_message:false }, o);
     const DEMO = [
-      ["GA","Atlanta","exploring","community",4,"existing_neighborhood",null],
-      ["GA","Decatur","living","community",6,"existing_neighborhood",null],
-      ["GA","Atlanta","professional",null,null,null,"realtor"],
-      ["NC","Durham","exploring","individual",1,"not_sure",null],
-      ["NC","Raleigh","professional",null,null,null,"developer"],
-      ["TX","Austin","exploring","community",3,"new_development",null],
-      ["TX","Houston","living","community",5,"shared_property",null],
-      ["CA","Oakland","exploring","community",4,"shared_property",null],
-      ["OH","Columbus","professional",null,null,null,"architect"],
-      ["IL","Chicago","living","community",8,"existing_neighborhood",null],
-      ["CO","Denver","exploring","individual",2,"existing_neighborhood",null],
-      ["WA","Seattle","professional",null,null,null,"lender"],
-      ["TN","Nashville","exploring","community",5,"new_development",null]
-    ].map(([state,city,category,group_type,households,housing_pathway,professional_type]) =>
-      ({state,city,category,group_type,households,housing_pathway,professional_type}));
+      D({state:"GA",city:"Atlanta",category:"exploring",display_name:"Sarah M.",group_type:"community",households:4,housing_pathway:"existing_neighborhood",timeline:"1–2 years",public_intro:"Four families from our church hoping to share a street in East Atlanta.",looking_for:["households","realtor"],can_message:true}),
+      D({state:"GA",city:"Decatur",category:"living",display_name:"The Oakhurst Porch Group",group_type:"community",households:6,housing_pathway:"existing_neighborhood",public_intro:"Six households within a five-minute walk. Happy to share what we've learned.",looking_for:["households"],can_message:true}),
+      D({state:"GA",city:"Atlanta",category:"professional",display_name:"Jordan Example",professional_type:"realtor",organization:"Sample Realty Co.",service_area:"Metro Atlanta",website:"https://example.com",email:"agent@example.com",phone:"(555) 010-0000",public_intro:"Helping groups find homes near one another.",can_message:true}),
+      D({state:"NC",city:"Durham",category:"exploring",group_type:"individual",households:1,housing_pathway:"not_sure",timeline:"Just exploring",looking_for:["join_community"]}),
+      D({state:"NC",city:"Raleigh",category:"professional",display_name:"Alex Sample",professional_type:"developer",organization:"Example Builders",service_area:"Triangle region",website:"https://example.com",can_message:true}),
+      D({state:"TX",city:"Austin",category:"exploring",display_name:"Marcus T.",group_type:"community",households:3,housing_pathway:"new_development",timeline:"2–5 years",looking_for:["builder_developer","land"]}),
+      D({state:"TX",city:"Houston",category:"living",group_type:"community",households:5,housing_pathway:"shared_property"}),
+      D({state:"CA",city:"Oakland",category:"exploring",display_name:"Priya K.",group_type:"community",households:4,housing_pathway:"shared_property",timeline:"1–2 years",looking_for:["land","financing"],can_message:true}),
+      D({state:"OH",city:"Columbus",category:"professional",professional_type:"architect"}),
+      D({state:"IL",city:"Chicago",category:"living",display_name:"Logan Square Neighbors",group_type:"community",households:8,housing_pathway:"existing_neighborhood",looking_for:["households"]}),
+      D({state:"CO",city:"Denver",category:"exploring",group_type:"individual",households:2,housing_pathway:"existing_neighborhood",timeline:"Within 1 year",looking_for:["households","join_community"]}),
+      D({state:"WA",city:"Seattle",category:"professional",display_name:"Sam Placeholder",professional_type:"lender",organization:"Example Lending",service_area:"Puget Sound"}),
+      D({state:"TN",city:"Nashville",category:"exploring",display_name:"Hannah R.",group_type:"community",households:5,housing_pathway:"new_development",timeline:"2–5 years",looking_for:["builder_developer","coaching"]})
+    ];
 
     const isDemo = new URLSearchParams(location.search).get("demo") === "1";
     const SVGNS = "http://www.w3.org/2000/svg";
@@ -320,13 +371,48 @@
       renderPanel(groups);
     }
 
-    function describe(r) {
-      if (r.category === "professional") return esc(PRO[r.professional_type] || "Professional");
-      const bits = [];
-      if (r.group_type) bits.push(GROUP[r.group_type] || r.group_type);
-      if (r.households) bits.push(r.households + (r.households === 1 ? " household" : " households"));
-      if (r.housing_pathway) bits.push(PATHWAY[r.housing_pathway] || r.housing_pathway);
-      return esc(bits.join(" · "));
+    // Only allow normal web links
+    function safeUrl(u) {
+      try { const x = new URL(u); return (x.protocol === "https:" || x.protocol === "http:") ? x.href : null; }
+      catch { return null; }
+    }
+
+    function card(r) {
+      let h = `<div class="contact"><span class="tag ${r.category}"><span class="dot ${r.category}"></span>${CATS[r.category].label}</span>`;
+      if (r.display_name) h += `<h4>${esc(r.display_name)}</h4>`;
+
+      if (r.category === "professional") {
+        const bits = [PRO[r.professional_type] || "Professional"];
+        if (r.organization) bits.push(r.organization);
+        h += `<p>${esc(bits.join(" · "))}</p>`;
+        if (r.service_area) h += `<p class="meta">Serves ${esc(r.service_area)}</p>`;
+      } else {
+        const bits = [];
+        if (r.group_type) bits.push(GROUP[r.group_type] || r.group_type);
+        if (r.households) bits.push(r.households + (r.households === 1 ? " household" : " households"));
+        if (r.housing_pathway) bits.push(PATHWAY[r.housing_pathway] || r.housing_pathway);
+        if (bits.length) h += `<p>${esc(bits.join(" · "))}</p>`;
+        if (r.category === "exploring" && r.timeline) h += `<p class="meta">Timeline: ${esc(r.timeline)}</p>`;
+      }
+
+      if (r.public_intro) h += `<p class="intro">&ldquo;${esc(r.public_intro)}&rdquo;</p>`;
+
+      if (r.looking_for && r.looking_for.length) {
+        h += `<p class="meta">Looking for:</p><div class="looking">` +
+          r.looking_for.map(k => `<span>${esc(LOOKING[k] || k)}</span>`).join("") + `</div>`;
+      }
+
+      const links = [];
+      const web = r.website && safeUrl(r.website);
+      if (web) links.push(`<a href="${esc(web)}" target="_blank" rel="noopener nofollow">Website</a>`);
+      if (r.email) links.push(`<a href="mailto:${esc(r.email)}">${esc(r.email)}</a>`);
+      if (r.phone) links.push(`<a href="tel:${esc(r.phone.replace(/[^0-9+]/g, ""))}">${esc(r.phone)}</a>`);
+      if (links.length) h += `<p class="links">${links.join("")}</p>`;
+
+      if (r.can_message && (MESSAGING_ENABLED || isDemo) && (r.id || isDemo)) {
+        h += `<button type="button" class="msg-btn" data-id="${esc(r.id || "")}">Send a message</button>`;
+      }
+      return h + `</div>`;
     }
 
     function renderPanel(groups) {
@@ -341,11 +427,11 @@
         for (const city of Object.keys(cities).sort()) {
           html += `<div class="city"><h3>${esc(city)}</h3>`;
           for (const r of cities[city]) {
-            html += `<div class="contact"><span class="tag ${r.category}"><span class="dot ${r.category}"></span>${CATS[r.category].label}</span><p>${describe(r)}</p></div>`;
+            html += card(r);
           }
           html += `</div>`;
         }
-        html += `<p class="privacy-note">Only city-level details are shown, and only for people who chose to appear on the map.</p>`;
+        html += `<p class="privacy-note">Locations are city-level only. Names and contact details appear only when members choose to share them.</p>`;
         panel.innerHTML = html;
         panel.querySelector(".panel-close").addEventListener("click", () => select(null));
         return;
@@ -365,7 +451,7 @@
       } else {
         html += `<p class="hint">No one matches these filters yet.</p>`;
       }
-      html += `<p class="privacy-note">Only city-level details are shown, and only for people who chose to appear on the map.</p>`;
+      html += `<p class="privacy-note">Locations are city-level only. Names and contact details appear only when members choose to share them.</p>`;
       panel.innerHTML = html;
       panel.querySelectorAll("[data-ab]").forEach(b => b.addEventListener("click", () => select(b.dataset.ab)));
     }
@@ -393,7 +479,7 @@
         return;
       }
       try {
-        const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/get_network_map", {
+        const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/get_network_map_v2", {
           method: "POST",
           headers: {
             "apikey": SUPABASE_KEY,
@@ -414,6 +500,73 @@
       }
       render();
     }
+    // ----- Send a message -----
+    // The message function needs the legacy public (anon) key to pass its sign-in check.
+    const FUNCTION_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdoY2NjZ25vcXVoZ3BkbW5pcGZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyODU5NTksImV4cCI6MjEwMDg2MTk1OX0.7uYDAmDo4ltFLwvtIBfCTcUa_pOknaSsn9W1QEJ8-bg";
+    const modal = document.getElementById("msgModal");
+    const msgForm = document.getElementById("msgForm");
+    const msgError = document.getElementById("msgError");
+    const msgSend = document.getElementById("msgSend");
+    let msgRecipient = null;
+
+    function openMessage(id) {
+      const r = rows.find(x => x.id === id);
+      if (!r) return;
+      msgRecipient = id;
+      document.getElementById("msgTo").textContent = "To " + (r.display_name || "a network member") + " in " + r.city + ", " + r.state;
+      msgForm.reset(); msgForm.hidden = false; msgError.hidden = true;
+      document.getElementById("msgDone").hidden = true;
+      msgSend.disabled = false; msgSend.textContent = "Send message";
+      modal.hidden = false;
+      msgForm.name.focus();
+    }
+    function closeMessage() { modal.hidden = true; msgRecipient = null; }
+    document.getElementById("msgClose").addEventListener("click", closeMessage);
+    document.getElementById("msgDoneClose").addEventListener("click", closeMessage);
+    modal.addEventListener("click", e => { if (e.target === modal) closeMessage(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.hidden) closeMessage(); });
+    panel.addEventListener("click", e => {
+      const b = e.target.closest(".msg-btn");
+      if (b) openMessage(b.dataset.id);
+    });
+
+    const MSG_ERRORS = {
+      rate_limited: "You've reached today's message limit. Please try again tomorrow.",
+      recipient_unavailable: "This member isn't accepting messages right now.",
+      invalid_email: "Please check your email address.",
+      invalid_message: "Please write a message of at least 10 characters.",
+      messaging_not_configured: "Messaging isn't available yet. Please check back soon."
+    };
+    msgForm.addEventListener("submit", async e => {
+      e.preventDefault();
+      for (const i of msgForm.querySelectorAll("input:not([name=website_url]), textarea")) {
+        if (!i.checkValidity()) { i.reportValidity(); return; }
+      }
+      if (isDemo) { msgForm.hidden = true; document.getElementById("msgDone").hidden = false; return; }
+      msgSend.disabled = true; msgSend.textContent = "Sending…"; msgError.hidden = true;
+      try {
+        const res = await fetch(SUPABASE_URL + "/functions/v1/send-message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + FUNCTION_KEY, "apikey": FUNCTION_KEY },
+          body: JSON.stringify({
+            recipient_id: msgRecipient,
+            name: msgForm.name.value.trim(),
+            email: msgForm.email.value.trim(),
+            message: msgForm.message.value.trim(),
+            website_url: msgForm.website_url.value
+          })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || "send_failed");
+        msgForm.hidden = true;
+        document.getElementById("msgDone").hidden = false;
+      } catch (err) {
+        msgError.textContent = MSG_ERRORS[err.message] || "Sorry, your message couldn't be sent. Please try again.";
+        msgError.hidden = false;
+        msgSend.disabled = false; msgSend.textContent = "Send message";
+      }
+    });
+
     let resizeTimer;
     window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(render, 150); });
     load();

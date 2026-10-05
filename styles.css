@@ -433,3 +433,11 @@ h3 { font-weight: 600; font-size: 19px; }
   letter-spacing: 0.16em; text-transform: uppercase; color: var(--charcoal);
 }
 .quote-cite span { color: var(--muted); font-weight: 600; letter-spacing: 0.08em; text-transform: none; font-family: var(--font-body); font-size: 13px; }
+
+/* Map & connections opt-ins on the join form */
+.map-optins { margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--line); }
+.optin-title { font-family: var(--font-head); font-weight: 700; font-size: 14px; color: var(--charcoal); margin-bottom: 12px; }
+.optin-nested { margin-left: 30px; transition: opacity 0.2s; }
+.optin-nested.is-off { opacity: 0.45; }
+.optin-nested .field { margin-top: 4px; font-size: 14.5px; }
+.pill input[type=checkbox] { position: absolute; opacity: 0; pointer-events: none; }
