@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Community Planning Workbook | Proximate Communities</title>
+  <meta name="description" content="A free spreadsheet to help your group align on priorities, compare neighborhoods, track properties, and plan your move toward proximity.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="join-page">
+
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="index.html" class="wordmark" aria-label="Proximate Communities home">
+        <span class="main">PROXIMATE</span>
+        <span class="sub">COMMUNITIES</span>
+      </a>
+      <ul class="nav-links">
+        <li class="hide-md"><a href="index.html#resources">Resources</a></li>
+        <li><a href="join.html" class="btn btn-primary">Join the Network</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="wrap lm-layout">
+    <section class="lm-info">
+      <span class="label">Free resource</span>
+      <h1>Community Planning Workbook</h1>
+      <p class="lead">A free spreadsheet that helps your group discern where and how to live near one another: align on what matters most, compare neighborhoods, track properties, and keep your plan in one place.</p>
+
+      <figure class="lm-preview">
+        <img src="images/planning-workbook-preview.webp" width="760" height="447"
+             alt="Preview of the workbook's Community Dashboard showing household snapshot and ranked community priorities">
+      </figure>
+
+      <h2 class="lm-sub">What's inside</h2>
+      <ul class="lm-list">
+        <li><strong>Community Members:</strong> each household's budget, timeline, and commitment, plus your group's <em>shared budget window</em></li>
+        <li><strong>Housing Priorities:</strong> every household ranks 30 characteristics; the workbook finds your non-negotiable, top priorities, and where you disagree</li>
+        <li><strong>Neighborhood Comparison:</strong> score up to 5 neighborhoods, automatically weighted by what your community values most</li>
+        <li><strong>Properties:</strong> track homes, lots, and land with price per home, status, and ratings</li>
+        <li><strong>Community Dashboard:</strong> vision, strategy, best-fit neighborhood, roles, stakeholders, and next steps on one page</li>
+        <li>Opens in Excel or Google Sheets</li>
+      </ul>
+    </section>
+
+    <aside class="form-card lm-card">
+      <form class="gate-form" data-resource="planning-workbook" data-done="lmDone" novalidate>
+        <h2>Get the free workbook</h2>
+        <p class="lm-card-sub">Enter your name and email to download.</p>
+        <div class="trap" aria-hidden="true"><label>Leave this empty <input type="text" name="website_url" tabindex="-1" autocomplete="off"></label></div>
+        <div class="field-row">
+          <label class="field">First name <input type="text" name="first_name" maxlength="100" autocomplete="given-name" required></label>
+          <label class="field">Last name <input type="text" name="last_name" maxlength="100" autocomplete="family-name" required></label>
+        </div>
+        <label class="field">Email <input type="email" name="email" maxlength="254" autocomplete="email" required></label>
+        <label class="check"><input type="checkbox" name="wants_updates">
+          <span>Send me occasional updates and new resources from Proximate Communities.</span>
+        </label>
+        <p class="form-error" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primary lm-btn">Download the workbook</button>
+        <p class="lm-fine">We'll never share your email.</p>
+      </form>
+
+      <div id="lmDone" class="lm-done" hidden>
+        <span class="label">Your download is starting</span>
+        <h2>Thank you!</h2>
+        <p>If it doesn't start automatically, use the button below. The link works for 10 minutes.</p>
+        <a class="btn btn-primary download-again" href="#">Download the workbook</a>
+        <div class="lm-next">
+          <p>Ready to find others pursuing proximity near you?</p>
+          <a href="join.html">Join the Proximate Network &rarr;</a>
+          <p style="margin-top:12px">Just getting started?</p>
+          <a href="15-steps.html">Get the 15 Steps to Proximity guide &rarr;</a>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a href="index.html" class="wordmark" aria-label="Proximate Communities home">
+        <span class="main">PROXIMATE</span>
+        <span class="sub">COMMUNITIES</span>
+      </a>
+      <span><a href="contact.html" class="footer-link">Contact</a> · © 2026 Proximate Communities · Helping people live near their people.</span>
+    </div>
+  </footer>
+
+  <script src="js/lead-magnet.js"></script>
+</body>
+</html>
