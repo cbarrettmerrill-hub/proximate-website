@@ -53,7 +53,10 @@
         <h2>Get the free guide</h2>
         <p class="lm-card-sub">Enter your name and email to download.</p>
         <div class="trap" aria-hidden="true"><label>Leave this empty <input type="text" name="website_url" tabindex="-1" autocomplete="off"></label></div>
-        <label class="field">Name <input type="text" name="name" maxlength="100" autocomplete="name" required></label>
+        <div class="field-row">
+          <label class="field">First name <input type="text" name="first_name" maxlength="100" autocomplete="given-name" required></label>
+          <label class="field">Last name <input type="text" name="last_name" maxlength="100" autocomplete="family-name" required></label>
+        </div>
         <label class="field">Email <input type="email" name="email" maxlength="254" autocomplete="email" required></label>
         <label class="check"><input type="checkbox" name="wants_updates">
           <span>Send me occasional updates and new resources from Proximate Communities.</span>

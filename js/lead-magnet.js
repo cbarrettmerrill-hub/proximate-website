@@ -8,7 +8,8 @@
   const ENDPOINT = "https://ghcccgnoquhgpdmnipfm.supabase.co/functions/v1/get-resource";
   const KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdoY2NjZ25vcXVoZ3BkbW5pcGZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyODU5NTksImV4cCI6MjEwMDg2MTk1OX0.7uYDAmDo4ltFLwvtIBfCTcUa_pOknaSsn9W1QEJ8-bg";
   const ERRORS = {
-    invalid_name: "Please enter your name.",
+    invalid_first_name: "Please enter your first name.",
+    invalid_last_name: "Please enter your last name.",
     invalid_email: "Please check your email address.",
     rate_limited: "Too many requests today. Please try again tomorrow.",
     resource_unavailable: "This resource isn't available right now. Please check back soon.",
@@ -33,7 +34,8 @@
           headers: { "Content-Type": "application/json", "Authorization": "Bearer " + KEY, "apikey": KEY },
           body: JSON.stringify({
             resource: form.dataset.resource,
-            name: form.elements.name.value.trim(),
+            first_name: form.elements.first_name.value.trim(),
+            last_name: form.elements.last_name.value.trim(),
             email: form.elements.email.value.trim(),
             wants_updates: !!(form.elements.wants_updates && form.elements.wants_updates.checked),
             website_url: form.elements.website_url ? form.elements.website_url.value : ""
@@ -57,4 +59,31 @@
       }
     });
   });
+
+  // ----- Pop-up version (home page Resources section) -----
+  // Any element with data-gate="<slug>" opens the shared download pop-up.
+  const modal = document.getElementById("gateModal");
+  if (modal) {
+    const form = modal.querySelector("form.gate-form");
+    const done = document.getElementById(form.dataset.done);
+    const btn = form.querySelector("button[type=submit]");
+    const title = modal.querySelector("[data-gate-title]");
+    const open = (slug, name) => {
+      form.dataset.resource = slug;
+      title.textContent = name;
+      form.hidden = false; done.hidden = true;
+      form.querySelector(".form-error").hidden = true;
+      btn.disabled = false; btn.textContent = "Download";
+      modal.hidden = false;
+      form.elements.first_name.focus();
+    };
+    const close = () => { modal.hidden = true; };
+    document.querySelectorAll("[data-gate]").forEach(el => el.addEventListener("click", e => {
+      e.preventDefault();
+      open(el.dataset.gate, el.dataset.gateName || "Free resource");
+    }));
+    modal.querySelectorAll("[data-gate-close]").forEach(b => b.addEventListener("click", close));
+    modal.addEventListener("click", e => { if (e.target === modal) close(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.hidden) close(); });
+  }
 })();
