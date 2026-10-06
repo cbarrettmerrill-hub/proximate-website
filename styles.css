@@ -485,3 +485,8 @@ h3 { font-weight: 600; font-size: 19px; }
   .lm-card { position: static; }
   .feature-resource { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
 }
+
+/* Portrait previews and clickable resource cards */
+.lm-preview-portrait { max-width: 460px; }
+a.resource-live { text-decoration: none; color: inherit; border-color: var(--light-blue); background: var(--white); transition: border-color 0.2s, box-shadow 0.2s; }
+a.resource-live:hover { border-color: var(--navy); box-shadow: 0 6px 20px rgba(46, 79, 134, 0.10); }
