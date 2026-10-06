@@ -110,7 +110,7 @@
               <label class="field">Community name <span class="optional">(optional)</span>
                 <input type="text" name="community_name" maxlength="150" placeholder="e.g., Oakhurst Porch Group"></label>
               <label class="field">Community website <span class="optional">(optional)</span>
-                <input type="url" name="community_website" maxlength="300" placeholder="https://"></label>
+                <input type="text" name="community_website" maxlength="300" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="e.g., ourcommunity.org" data-website></label>
             </div>
           </div>
 
@@ -173,7 +173,7 @@
           <legend>Tell us about your work</legend>
           <label class="field">Organization / company <input type="text" name="organization" maxlength="200" autocomplete="organization" required></label>
           <div class="field-row">
-            <label class="field">Website <span class="optional">(optional)</span> <input type="url" name="website" maxlength="300" placeholder="https://"></label>
+            <label class="field">Website <span class="optional">(optional)</span> <input type="text" name="website" maxlength="300" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="e.g., yourcompany.com" data-website></label>
             <label class="field">Business phone <span class="optional">(optional)</span> <input type="tel" name="phone" maxlength="40" autocomplete="tel"></label>
           </div>
           <label class="field narrow">Professional type
@@ -382,6 +382,21 @@
       r.addEventListener("change", () => { current = 1; show(); })
     );
 
+    // Website fields: no need to type https:// (it's added automatically)
+    function normalizeUrl(val) {
+      const v = (val || "").trim();
+      if (!v) return null;
+      return /^https?:\/\//i.test(v) ? v : "https://" + v.replace(/^\/+/, "");
+    }
+    form.querySelectorAll("[data-website]").forEach(inp => {
+      const check = () => {
+        const v = inp.value.trim();
+        inp.setCustomValidity(!v || /^(https?:\/\/)?[^\s.\/]+\.[^\s]{2,}$/i.test(v) ? "" : "Please enter a web address, e.g. yoursite.com");
+      };
+      inp.addEventListener("input", check);
+      inp.addEventListener("blur", check);
+    });
+
     // Gather only the answers that belong to the chosen path
     function collect() {
       const d = new FormData(form);
@@ -406,7 +421,7 @@
           group_type: v("group_type"),
           households: v("group_type") === "individual" ? 1 : (v("households") ? parseInt(v("households"), 10) : null),
           community_name: v("group_type") === "community" ? v("community_name") : null,
-          community_website: v("group_type") === "community" ? v("community_website") : null,
+          community_website: v("group_type") === "community" ? normalizeUrl(v("community_website")) : null,
           housing_pathway: v("housing_pathway"),
           readiness: v("readiness"),
           timeline: v("timeline"),
@@ -418,7 +433,7 @@
       } else {
         Object.assign(row, {
           organization: v("organization"),
-          website: v("website"),
+          website: normalizeUrl(v("website")),
           phone: v("phone"),
           public_listing: onMap && d.get("public_listing") === "on",
           professional_type: v("professional_type"),
