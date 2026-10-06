@@ -86,4 +86,20 @@
     modal.addEventListener("click", e => { if (e.target === modal) close(); });
     document.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.hidden) close(); });
   }
+
+  // ----- Wholly newsletter pop-up (Substack's own sign-up form) -----
+  // Loads the Substack form only when opened, so the page stays fast.
+  const sub = document.getElementById("substackModal");
+  if (sub) {
+    const frame = sub.querySelector("iframe");
+    const close = () => { sub.hidden = true; };
+    document.querySelectorAll("[data-substack]").forEach(el => el.addEventListener("click", e => {
+      e.preventDefault();
+      if (!frame.src) frame.src = frame.dataset.src;
+      sub.hidden = false;
+    }));
+    sub.querySelectorAll("[data-substack-close]").forEach(b => b.addEventListener("click", close));
+    sub.addEventListener("click", e => { if (e.target === sub) close(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && !sub.hidden) close(); });
+  }
 })();
