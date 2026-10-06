@@ -57,6 +57,10 @@
           <textarea name="message" rows="6" minlength="10" maxlength="4000" required></textarea>
         </label>
 
+        <label class="check"><input type="checkbox" name="subscribe_wholly" checked>
+          <span>Subscribe me to <strong>Wholly</strong>, our free newsletter on Substack. <span class="optional">(Unsubscribe anytime.)</span></span>
+        </label>
+
         <p class="form-note">Looking to connect with people near you? <a href="join.html">Join the network</a> instead.</p>
 
         <p class="form-error" id="formError" role="alert" hidden></p>
@@ -114,6 +118,7 @@
             email: form.email.value.trim(),
             topic: form.topic.value,
             message: form.message.value.trim(),
+            subscribe_wholly: form.subscribe_wholly.checked,
             website_url: form.website_url.value
           })
         });

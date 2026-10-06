@@ -239,7 +239,7 @@
       professional: { label: "Professional", color: "var(--c-professional)", hex: "#9A8566" }
     };
     const PATHWAY = {
-      existing_neighborhood: "Existing neighborhood", new_development: "New development",
+      existing_neighborhood: "Existing homes / neighborhood", new_development: "New development",
       shared_property: "Shared property", not_sure: "Not sure yet", other: "Other arrangement"
     };
     const PRO = {
@@ -259,11 +259,11 @@
     // Sample data, only shown with ?demo=1 in the address. Not real people.
     let demoN = 0;
     const D = (o) => Object.assign({ id: "demo-" + (++demoN), display_name:null, group_type:null, households:null, housing_pathway:null, timeline:null,
-      public_intro:null, looking_for:[], professional_type:null, organization:null, service_area:null,
+      community_name:null, community_website:null, public_intro:null, looking_for:[], professional_type:null, organization:null, service_area:null,
       website:null, email:null, phone:null, can_message:false }, o);
     const DEMO = [
       D({state:"GA",city:"Atlanta",category:"exploring",display_name:"Sarah M.",group_type:"community",households:4,housing_pathway:"existing_neighborhood",timeline:"1–2 years",public_intro:"Four families from our church hoping to share a street in East Atlanta.",looking_for:["households","realtor"],can_message:true}),
-      D({state:"GA",city:"Decatur",category:"living",display_name:"The Oakhurst Porch Group",group_type:"community",households:6,housing_pathway:"existing_neighborhood",public_intro:"Six households within a five-minute walk. Happy to share what we've learned.",looking_for:["households"],can_message:true}),
+      D({state:"GA",city:"Decatur",category:"living",display_name:"Dana W.",community_name:"The Oakhurst Porch Group",community_website:"https://example.com",group_type:"community",households:6,housing_pathway:"existing_neighborhood",public_intro:"Six households within a five-minute walk. Happy to share what we've learned.",looking_for:["households"],can_message:true}),
       D({state:"GA",city:"Atlanta",category:"professional",display_name:"Jordan Example",professional_type:"realtor",organization:"Sample Realty Co.",service_area:"Metro Atlanta",website:"https://example.com",email:"agent@example.com",phone:"(555) 010-0000",public_intro:"Helping groups find homes near one another.",can_message:true}),
       D({state:"NC",city:"Durham",category:"exploring",group_type:"individual",households:1,housing_pathway:"not_sure",timeline:"Just exploring",looking_for:["join_community"]}),
       D({state:"NC",city:"Raleigh",category:"professional",display_name:"Alex Sample",professional_type:"developer",organization:"Example Builders",service_area:"Triangle region",website:"https://example.com",can_message:true}),
@@ -271,7 +271,7 @@
       D({state:"TX",city:"Houston",category:"living",group_type:"community",households:5,housing_pathway:"shared_property"}),
       D({state:"CA",city:"Oakland",category:"exploring",display_name:"Priya K.",group_type:"community",households:4,housing_pathway:"shared_property",timeline:"1–2 years",looking_for:["land","financing"],can_message:true}),
       D({state:"OH",city:"Columbus",category:"professional",professional_type:"architect"}),
-      D({state:"IL",city:"Chicago",category:"living",display_name:"Logan Square Neighbors",group_type:"community",households:8,housing_pathway:"existing_neighborhood",looking_for:["households"]}),
+      D({state:"IL",city:"Chicago",category:"living",display_name:"Chris L.",community_name:"Logan Square Neighbors",group_type:"community",households:8,housing_pathway:"existing_neighborhood",looking_for:["households"]}),
       D({state:"CO",city:"Denver",category:"exploring",group_type:"individual",households:2,housing_pathway:"existing_neighborhood",timeline:"Within 1 year",looking_for:["households","join_community"]}),
       D({state:"WA",city:"Seattle",category:"professional",display_name:"Sam Placeholder",professional_type:"lender",organization:"Example Lending",service_area:"Puget Sound"}),
       D({state:"TN",city:"Nashville",category:"exploring",display_name:"Hannah R.",group_type:"community",households:5,housing_pathway:"new_development",timeline:"2–5 years",looking_for:["builder_developer","coaching"]})
@@ -379,7 +379,13 @@
 
     function card(r) {
       let h = `<div class="contact"><span class="tag ${r.category}"><span class="dot ${r.category}"></span>${CATS[r.category].label}</span>`;
-      if (r.display_name) h += `<h4>${esc(r.display_name)}</h4>`;
+      const cweb = r.community_website && safeUrl(r.community_website);
+      if (r.community_name) {
+        h += `<h4>${esc(r.community_name)}</h4>`;
+        if (r.display_name) h += `<p class="meta contact-person">Contact: ${esc(r.display_name)}</p>`;
+      } else if (r.display_name) {
+        h += `<h4>${esc(r.display_name)}</h4>`;
+      }
 
       if (r.category === "professional") {
         const bits = [PRO[r.professional_type] || "Professional"];
@@ -405,6 +411,7 @@
       const links = [];
       const web = r.website && safeUrl(r.website);
       if (web) links.push(`<a href="${esc(web)}" target="_blank" rel="noopener nofollow">Website</a>`);
+      if (cweb) links.push(`<a href="${esc(cweb)}" target="_blank" rel="noopener nofollow">Community website</a>`);
       if (r.email) links.push(`<a href="mailto:${esc(r.email)}">${esc(r.email)}</a>`);
       if (r.phone) links.push(`<a href="tel:${esc(r.phone.replace(/[^0-9+]/g, ""))}">${esc(r.phone)}</a>`);
       if (links.length) h += `<p class="links">${links.join("")}</p>`;
@@ -431,7 +438,7 @@
           }
           html += `</div>`;
         }
-        html += `<p class="privacy-note">Locations are city-level only. Names and contact details appear only when members choose to share them.</p>`;
+        html += `<p class="privacy-note">Locations are city-level only. Members on the map show their first name and last initial; contact details appear only when members choose to share them.</p>`;
         panel.innerHTML = html;
         panel.querySelector(".panel-close").addEventListener("click", () => select(null));
         return;
@@ -451,7 +458,7 @@
       } else {
         html += `<p class="hint">No one matches these filters yet.</p>`;
       }
-      html += `<p class="privacy-note">Locations are city-level only. Names and contact details appear only when members choose to share them.</p>`;
+      html += `<p class="privacy-note">Locations are city-level only. Members on the map show their first name and last initial; contact details appear only when members choose to share them.</p>`;
       panel.innerHTML = html;
       panel.querySelectorAll("[data-ab]").forEach(b => b.addEventListener("click", () => select(b.dataset.ab)));
     }
@@ -479,7 +486,7 @@
         return;
       }
       try {
-        const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/get_network_map_v2", {
+        const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/get_network_map_v3", {
           method: "POST",
           headers: {
             "apikey": SUPABASE_KEY,

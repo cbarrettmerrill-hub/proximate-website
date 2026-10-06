@@ -92,7 +92,7 @@
 
           <p class="q">Where are you in the journey?</p>
           <div class="pill-group">
-            <label class="pill"><input type="radio" name="journey_stage" value="exploring" required><span>Exploring or planning</span></label>
+            <label class="pill"><input type="radio" name="journey_stage" value="exploring" required><span>Exploring or planning to move closer to one another</span></label>
             <label class="pill"><input type="radio" name="journey_stage" value="living" required><span>Already living near one another</span></label>
           </div>
 
@@ -102,13 +102,21 @@
             <label class="pill"><input type="radio" name="group_type" value="community" required><span>A group of households</span></label>
           </div>
 
-          <label class="field narrow">About how many households are involved?
-            <input type="number" name="households" min="1" max="500" inputmode="numeric" required>
-          </label>
+          <div data-group="community" hidden>
+            <label class="field narrow">About how many households are involved?
+              <input type="number" name="households" min="2" max="500" inputmode="numeric" required>
+            </label>
+            <div class="field-row">
+              <label class="field">Community name <span class="optional">(optional)</span>
+                <input type="text" name="community_name" maxlength="150" placeholder="e.g., Oakhurst Porch Group"></label>
+              <label class="field">Community website <span class="optional">(optional)</span>
+                <input type="url" name="community_website" maxlength="300" placeholder="https://"></label>
+            </div>
+          </div>
 
           <p class="q" data-text-exploring="Which housing pathway interests you?" data-text-living="Which best describes how you live near one another?">Which housing pathway interests you?</p>
           <div class="pill-group">
-            <label class="pill"><input type="radio" name="housing_pathway" value="existing_neighborhood" required><span>Existing neighborhood</span></label>
+            <label class="pill"><input type="radio" name="housing_pathway" value="existing_neighborhood" required><span>Existing homes / neighborhood</span></label>
             <label class="pill"><input type="radio" name="housing_pathway" value="new_development" required><span>New development</span></label>
             <label class="pill"><input type="radio" name="housing_pathway" value="shared_property" required><span>Shared property</span></label>
             <label class="pill" data-show="exploring"><input type="radio" name="housing_pathway" value="not_sure" required><span>Not sure yet</span></label>
@@ -201,16 +209,17 @@
             <span>I agree that Proximate Communities may store this information and contact me about relevant communities, professionals, opportunities, and resources.</span>
           </label>
 
+          <label class="check"><input type="checkbox" name="subscribe_wholly" checked>
+            <span>Subscribe me to <strong>Wholly</strong>, our free newsletter on Substack. <span class="optional">(Unsubscribe anytime.)</span></span>
+          </label>
+
           <div class="map-optins">
             <p class="optin-title">Map &amp; connections <span class="optional">(all optional)</span></p>
             <label class="check"><input type="checkbox" name="show_on_map" id="showOnMap">
-              <span>Show me on the Proximate Network map. Only your <strong>city</strong> is shown, never your address.</span>
+              <span>Show me on the Proximate Network map. Your <strong>first name, last initial, and city</strong> are shown (never your address or email).</span>
             </label>
 
             <div class="optin-nested" id="mapExtras">
-              <label class="check" data-only="community"><input type="checkbox" name="show_name">
-                <span>Show my first name and last initial (e.g., &ldquo;Sarah M.&rdquo;).</span>
-              </label>
               <label class="check" data-only="professional"><input type="checkbox" name="public_listing">
                 <span>List my business publicly: my name, organization, professional type, website, service area, email, and phone.</span>
               </label>
@@ -335,6 +344,16 @@
     }
     form.querySelectorAll("input[name=journey_stage]").forEach(r => r.addEventListener("change", applyJourney));
 
+    // Household count and community name/website only for groups of households
+    function applyGroup() {
+      const isGroup = form.group_type.value === "community";
+      form.querySelectorAll("[data-group]").forEach(el => {
+        el.hidden = !isGroup;
+        el.querySelectorAll("input").forEach(i => i.disabled = !isGroup);
+      });
+    }
+    form.querySelectorAll("input[name=group_type]").forEach(r => r.addEventListener("change", applyGroup));
+
     // Map & connections: show the right options for each path, and only
     // enable the extra options when "Show me on the map" is checked
     const showOnMap = document.getElementById("showOnMap");
@@ -372,7 +391,8 @@
         first_name: v("first_name"), last_name: v("last_name"),
         email: v("email"), city: v("city"), state: v("state"),
         consent: d.get("consent") === "on",
-        show_on_map: d.get("show_on_map") === "on"
+        show_on_map: d.get("show_on_map") === "on",
+        subscribe_wholly: d.get("subscribe_wholly") === "on"
       };
       // Extra map options only count when they chose to be on the map
       const onMap = row.show_on_map;
@@ -384,14 +404,16 @@
         Object.assign(row, {
           journey_stage: v("journey_stage"),
           group_type: v("group_type"),
-          households: v("households") ? parseInt(v("households"), 10) : null,
+          households: v("group_type") === "individual" ? 1 : (v("households") ? parseInt(v("households"), 10) : null),
+          community_name: v("group_type") === "community" ? v("community_name") : null,
+          community_website: v("group_type") === "community" ? v("community_website") : null,
           housing_pathway: v("housing_pathway"),
           readiness: v("readiness"),
           timeline: v("timeline"),
           vision: v("vision"),
           notes: v("notes"),
           looking_for: d.getAll("looking_for").map(String),
-          show_name: onMap && d.get("show_name") === "on"
+          show_name: onMap
         });
       } else {
         Object.assign(row, {
@@ -454,6 +476,7 @@
       current = 1;
     }
     applyJourney();
+    applyGroup();
     show();
   </script>
 </body>
